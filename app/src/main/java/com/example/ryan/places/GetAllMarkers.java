@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ProgressBar;
 
 //import org.json.simple.parser.JSONParser;
 
@@ -15,6 +16,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by Ryan on 7/20/2017.
@@ -22,7 +26,6 @@ import java.util.HashMap;
 
 public class GetAllMarkers extends ListActivity {
     public String rst = "";//will contain the json string
-
 
 /*
     //For progress dialog
@@ -45,10 +48,27 @@ public void fetch() {
     fmt.execute();
 }
 
-    private class FetchMarkersTask extends AsyncTask<Void, Void, String> {
+public String get(){
+    String result  = "";
+    FetchMarkersTask fmt = new FetchMarkersTask();
+    try {
+        result = fmt.get(10, TimeUnit.SECONDS);
+    }
+    catch (InterruptedException i){
+    }
+    catch (ExecutionException e){
+    }
+    catch (TimeoutException t){
+    }
+    return result;
+}
+
+    public class FetchMarkersTask extends AsyncTask<Void, Void, String> {
 
         //////////////////////////////////
-        final String ip_address = "192.168.1.21";
+        //these ip addresses are for testing with wampserver, will change to a better solution with google cloud
+        final String ip_address = "192.168.1.17";//home
+        //final String ip_address = "10.76.237.197";//school
         final String project = "android_connect";
         final String file = "get_all_locations.php";
 
@@ -57,7 +77,14 @@ public void fetch() {
         //@Override
         protected void onPostExecute(String result){
             MapsActivity ma = new MapsActivity();
-            ma.getLong(result);
+            try {
+                Log.d("ONMAPREADY222222--", "ONMAPREADY");
+                ma.getLong(result);
+            }
+            catch(IOException e)
+            {
+
+            }
         }
 
         @Override
