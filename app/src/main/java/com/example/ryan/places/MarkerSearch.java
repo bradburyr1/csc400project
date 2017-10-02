@@ -1,7 +1,8 @@
 package com.example.ryan.places;
-import android.app.ListActivity;
+
 import android.os.AsyncTask;
 import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,35 +13,37 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * Created by Ryan on 7/20/2017.
+ * Created by Ryan on 10/1/2017.
  */
 
-public class GetAllMarkers extends ListActivity {
+public class MarkerSearch {
     public String rst = "";//will contain the json string
 
-public void starter(){
-    Log.d("HELLO*************", "Starter");
-    fetch();
-}
+    public void starter(){
+        Log.d("HELLO*************", "Starter");
+        fetch();
+    }
 
-public void fetch() {
-    Log.d("HELLO*************", "Fetch");
-    FetchMarkersTask fmt = new FetchMarkersTask();
-    fmt.execute();
-}
+    public void fetch() {
+        Log.d("HELLO*************", "Fetch");
+        FetchMarkersTask fmt = new FetchMarkersTask();
+        String test = "TestPassVar";
+        fmt.testVar = test;
+        fmt.execute();
+    }
 
-public void pauseMarkers(){//Make the program wait for the JSON to finish parsing
-    FetchMarkersTask fmt = new FetchMarkersTask();
-    try {
-        fmt.get(1500, TimeUnit.MILLISECONDS);
+    public void pauseMarkers(){//Make the program wait for the JSON to finish parsing
+        FetchMarkersTask fmt = new FetchMarkersTask();
+        try {
+            fmt.get(1500, TimeUnit.MILLISECONDS);
+        }
+        catch (InterruptedException i){
+        }
+        catch (ExecutionException e){
+        }
+        catch (TimeoutException t){
+        }
     }
-    catch (InterruptedException i){
-    }
-    catch (ExecutionException e){
-    }
-    catch (TimeoutException t){
-    }
-}
 
     public class FetchMarkersTask extends AsyncTask<Void, Void, String> {
 
@@ -50,23 +53,22 @@ public void pauseMarkers(){//Make the program wait for the JSON to finish parsin
         final String project = "android_connect";
         final String file = "get_all_locations.php";
 
+        String testVar = "";
+
         String builtUri = "http://" + ip_address + "/" + project + "/" + file;
 
         //@Override
         protected void onPostExecute(String result){
-            MapsActivity ma = new MapsActivity();
-            try {
+            //MapsActivity ma = new MapsActivity();
+            SearchActivity sa = new SearchActivity();
                 Log.d("ONMAPREADY222222--", "ONMAPREADY");
-                ma.getLong();
-            }
-            catch(IOException e)
-            {
-
-            }
+                //ma.getLong(result);
+                sa.acceptRes(result);
         }
 
         @Override
         protected String doInBackground(Void... params) {
+            Log.d("TEST_TEST_TEST", testVar);
             HttpURLConnection urlConnection = null;
             String response = "";
             Log.d("HELLO*************", "doInBackground: " + builtUri);

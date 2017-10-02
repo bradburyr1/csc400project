@@ -21,7 +21,7 @@ public class WelcomeScreen extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(WelcomeScreen.this, MapsActivity.class));
+                startActivity(new Intent(WelcomeScreen.this, SearchActivity.class));
             }
         });
     }
