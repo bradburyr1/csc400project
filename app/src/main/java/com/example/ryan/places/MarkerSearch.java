@@ -21,14 +21,13 @@ public class MarkerSearch {
 
     public void starter(){
         Log.d("HELLO*************", "Starter");
-        fetch();
+        fetch("Football");
     }
 
-    public void fetch() {
+    public void fetch(String title) {
         Log.d("HELLO*************", "Fetch");
         FetchMarkersTask fmt = new FetchMarkersTask();
-        String test = "TestPassVar";
-        fmt.testVar = test;
+        fmt.title = title;
         fmt.execute();
     }
 
@@ -51,11 +50,11 @@ public class MarkerSearch {
         //these ip addresses are for testing with wampserver, will change to a better solution with google cloud
         final String ip_address = "192.168.1.17";//home
         final String project = "android_connect";
-        final String file = "get_all_locations.php";
+        final String file = "search.php";
 
-        String testVar = "";
+        String title = "";
 
-        String builtUri = "http://" + ip_address + "/" + project + "/" + file;
+        String builtUri = "http://" + ip_address + "/" + project + "/" + file + "?sport=";
 
         //@Override
         protected void onPostExecute(String result){
@@ -68,9 +67,10 @@ public class MarkerSearch {
 
         @Override
         protected String doInBackground(Void... params) {
-            Log.d("TEST_TEST_TEST", testVar);
+            Log.d("TEST_TEST_TEST", title);
             HttpURLConnection urlConnection = null;
             String response = "";
+            builtUri += title;
             Log.d("HELLO*************", "doInBackground: " + builtUri);
             try {
                 URL url = new URL(builtUri);

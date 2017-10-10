@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "971016684167",
+    "project_id": "places-43e40"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:971016684167:android:e299e8ef3ab92a86",
+        "android_client_info": {
+          "package_name": "com.example.ryan.places"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "971016684167-oc1umld7ftpjb5kjsrp4su0uifo8ui65.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ryan.places",
+            "certificate_hash": "f29e6fcd68b6c54152ba7cad837d59489ad646f2"
+          }
+        },
+        {
+          "client_id": "971016684167-g5oisid1qotpa92c41kf622bp3qipbh9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQVevu5xLyLcz58yLeYaU1MvOSNCZjioQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
