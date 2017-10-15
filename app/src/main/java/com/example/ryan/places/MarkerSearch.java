@@ -61,7 +61,7 @@ public class MarkerSearch {
             //MapsActivity ma = new MapsActivity();
             SearchActivity sa = new SearchActivity();
                 Log.d("ONMAPREADY222222--", "ONMAPREADY");
-                //ma.getLong(result);
+                //ma.parseJSON(result);
                 sa.acceptRes(result);
         }
 

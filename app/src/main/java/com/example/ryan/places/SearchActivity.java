@@ -12,6 +12,8 @@ import java.io.IOException;
 
 public class SearchActivity extends AppCompatActivity {
 
+    Login login = new Login();
+
     MarkerSearch ms = new MarkerSearch();
     public static Context context;
 
@@ -28,6 +30,12 @@ public class SearchActivity extends AppCompatActivity {
                 ms.starter();
             }
         });
+        final Button button3 = (Button) findViewById(R.id.button3);
+        button3.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(SearchActivity.this, Login.class));
+            }
+        });
     }
 
     public void acceptRes(String result){
@@ -35,7 +43,7 @@ public class SearchActivity extends AppCompatActivity {
         ma.result = result;
 
         try{
-        ma.getLong();
+        ma.parseJSON();
         }
         catch(IOException e)
         {

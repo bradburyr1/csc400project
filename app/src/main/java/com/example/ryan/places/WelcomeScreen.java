@@ -7,8 +7,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 
 public class WelcomeScreen extends AppCompatActivity {
+
+    Login login = new Login();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +27,13 @@ public class WelcomeScreen extends AppCompatActivity {
                 startActivity(new Intent(WelcomeScreen.this, SearchActivity.class));
             }
         });
-    }
 
+        final Button button = (Button) findViewById(R.id.button3);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                login.signOut();
+                startActivity(new Intent(WelcomeScreen.this, Login.class));
+            }
+        });
+    }
 }

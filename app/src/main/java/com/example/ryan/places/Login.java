@@ -3,6 +3,7 @@ package com.example.ryan.places;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -66,6 +67,14 @@ public class Login extends AppCompatActivity implements
         SignInButton signInButton = (SignInButton)findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         // [END customize_button]
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Login.this, SearchActivity.class));
+            }
+        });
     }
 
     @Override
@@ -119,9 +128,10 @@ public class Login extends AppCompatActivity implements
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
+            mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getEmail()));
             Log.d("%%%%%%%%%%%%%%%%%%%%%%", acct.getDisplayName());
             updateUI(true);
+            //startActivity(new Intent(Login.this, WelcomeScreen.class));
         } else {
             // Signed out, show unauthenticated UI.
             updateUI(false);
@@ -138,7 +148,7 @@ public class Login extends AppCompatActivity implements
     // [END signIn]
 
     // [START signOut]
-    private void signOut() {
+    public void signOut() {
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
                     @Override
@@ -200,10 +210,12 @@ public class Login extends AppCompatActivity implements
         if (signedIn) {
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
+            findViewById(R.id.fab).setVisibility(View.VISIBLE);
         } else {
             mStatusTextView.setText(R.string.signed_out);
 
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
+            findViewById(R.id.fab).setVisibility(View.GONE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
         }
     }

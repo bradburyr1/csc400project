@@ -76,7 +76,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
     }
-    public void getLong ()throws IOException {
+    public void parseJSON ()throws IOException {
         //Log.d("MAPS^^^^^^ACTIVITY", "test: " + res);//gam: GetAllMarkers, rst: json string result
 
         //sample json string for testing off wifi:

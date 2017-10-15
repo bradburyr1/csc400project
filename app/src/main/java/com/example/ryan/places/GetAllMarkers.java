@@ -57,7 +57,7 @@ public void pauseMarkers(){//Make the program wait for the JSON to finish parsin
             MapsActivity ma = new MapsActivity();
             try {
                 Log.d("ONMAPREADY222222--", "ONMAPREADY");
-                ma.getLong();
+                ma.parseJSON();
             }
             catch(IOException e)
             {
