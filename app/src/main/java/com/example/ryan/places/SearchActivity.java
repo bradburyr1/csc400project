@@ -7,8 +7,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 
 import java.io.IOException;
+
+import static com.example.ryan.places.R.id.sport;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -27,6 +31,26 @@ public class SearchActivity extends AppCompatActivity {
         final Button button = (Button) findViewById(R.id.button2);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                EditText sport = (EditText)findViewById(R.id.sport);
+                String sport_content = sport.getText().toString();
+
+                EditText city = (EditText)findViewById(R.id.city);
+                String city_content = city.getText().toString();
+
+                CheckBox comp = (CheckBox)findViewById(R.id.competitive);
+                boolean comp_bool = comp.isChecked();
+                CheckBox fun = (CheckBox)findViewById(R.id.fun);
+                boolean fun_bool = fun.isChecked();
+
+                Log.d("#####HOWDY######", "FUN: " + fun_bool + ", COMP: " + comp_bool);
+
+                //send all of the user's search terms to marker search
+                ms.title = sport_content;
+                ms.city = city_content;
+                ms.comp = comp_bool;
+                ms.fun = fun_bool;
+
                 ms.starter();
             }
         });

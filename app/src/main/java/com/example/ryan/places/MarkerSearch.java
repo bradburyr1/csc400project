@@ -19,15 +19,24 @@ import java.util.concurrent.TimeoutException;
 public class MarkerSearch {
     public String rst = "";//will contain the json string
 
+    public String title = "any";
+    public String city = "any";
+    public boolean comp = false;
+    public boolean fun = false;
+
     public void starter(){
         Log.d("HELLO*************", "Starter");
-        fetch("Football");
+        fetch(title, city, comp, fun);
     }
 
-    public void fetch(String title) {
+    public void fetch(String title, String city, boolean comp, boolean fun) {
         Log.d("HELLO*************", "Fetch");
         FetchMarkersTask fmt = new FetchMarkersTask();
+        //move the user's search terms into the AsyncTask
         fmt.title = title;
+        fmt.city = city;
+        fmt.comp = comp;
+        fmt.fun = fun;
         fmt.execute();
     }
 
@@ -52,9 +61,12 @@ public class MarkerSearch {
         final String project = "android_connect";
         final String file = "search.php";
 
-        String title = "";
+        String title = "any";
+        String city = "any";
+        boolean comp = false;
+        boolean fun = false;
 
-        String builtUri = "http://" + ip_address + "/" + project + "/" + file + "?sport=";
+        String builtUri = "http://" + ip_address + "/" + project + "/" + file;
 
         //@Override
         protected void onPostExecute(String result){
@@ -69,8 +81,20 @@ public class MarkerSearch {
         protected String doInBackground(Void... params) {
             Log.d("TEST_TEST_TEST", title);
             HttpURLConnection urlConnection = null;
+
+            if(title.equals("")){
+                title = "any";
+            }
+            if(city.equals("")) {
+                city = "any";
+            }
+            title = title.toLowerCase();
+            city = city.toLowerCase();
+
+            builtUri += "?sport=" +
+                    title + "&city=" + city + "&comp=" + comp + "&fun=" + fun;
+
             String response = "";
-            builtUri += title;
             Log.d("HELLO*************", "doInBackground: " + builtUri);
             try {
                 URL url = new URL(builtUri);

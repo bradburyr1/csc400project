@@ -77,13 +77,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
     public void parseJSON ()throws IOException {
-        //Log.d("MAPS^^^^^^ACTIVITY", "test: " + res);//gam: GetAllMarkers, rst: json string result
-
         //sample json string for testing off wifi:
         /*String jsonString = "{\"markers\":[{\"latitude\":\"-34\",\"longitude\":\"151\",\"title\":\"Sydney\"},{\"latitude\"" +
                 ":\"43\",\"longitude\":\"-77\",\"title\":\"Northeast US\"}],\"success\":1}";*/
 
         String res = result;
+        Log.d("MAPS^^^^^^ACTIVITY", "test: " + res);//gam: GetAllMarkers, rst: json string result
+
 
         try {
             JSONObject jsonParse = new JSONObject(res);//create a json object
