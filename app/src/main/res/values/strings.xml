@@ -21,4 +21,9 @@
     <string name="signed_out">Welcome to Let\'s Play Sports! Sign in with Google: </string>
     <string name="sign_out">Sign out</string>
     <string name="disconnect">Disconnect</string>
+    <string name="create">Create a game</string>
+    <string-array name="comp_level">
+        <item>Competitive</item>
+        <item>Just For Fun</item>
+    </string-array>
 </resources>

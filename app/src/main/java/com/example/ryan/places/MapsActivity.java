@@ -1,6 +1,8 @@
 package com.example.ryan.places;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -17,6 +19,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
+import java.util.List;
+
 import static com.example.ryan.places.R.id.map;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {

@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.ryan.places.R;
@@ -21,6 +22,11 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+import java.util.StringTokenizer;
+
+import static android.os.Build.VERSION_CODES.M;
+import static com.example.ryan.places.create.time;
+
 public class Login extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener {
@@ -31,6 +37,8 @@ public class Login extends AppCompatActivity implements
     private GoogleApiClient mGoogleApiClient;
     private TextView mStatusTextView;
     private ProgressDialog mProgressDialog;
+
+    create cr = new create();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +51,7 @@ public class Login extends AppCompatActivity implements
         // Button listeners
         findViewById(R.id.sign_in_button).setOnClickListener(this);
         findViewById(R.id.sign_out_button).setOnClickListener(this);
-        findViewById(R.id.disconnect_button).setOnClickListener(this);
+        //findViewById(R.id.disconnect_button).setOnClickListener(this);
 
         // [START configure_signin]
         // Configure sign-in to request the user's ID, email address, and basic
@@ -73,6 +81,14 @@ public class Login extends AppCompatActivity implements
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Login.this, SearchActivity.class));
+            }
+        });
+
+        Button createbutton = (Button) findViewById(R.id.create_button);
+        createbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Login.this, create.class));
             }
         });
     }
@@ -129,6 +145,15 @@ public class Login extends AppCompatActivity implements
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getEmail()));
+            String email = acct.getEmail();
+
+            StringTokenizer tokenTime = new StringTokenizer(email, "@");
+            String name = tokenTime.nextToken();
+            String suffix = tokenTime.nextToken();
+            String newTok = "_";
+            email = name + newTok + suffix;
+            cr.uid = email;//We need change uid in the information on "makegame" in case the user decides to make a game
+
             Log.d("%%%%%%%%%%%%%%%%%%%%%%", acct.getDisplayName());
             updateUI(true);
             //startActivity(new Intent(Login.this, WelcomeScreen.class));
@@ -210,6 +235,7 @@ public class Login extends AppCompatActivity implements
         if (signedIn) {
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
+            findViewById(R.id.create_button).setVisibility(View.VISIBLE);
             findViewById(R.id.fab).setVisibility(View.VISIBLE);
         } else {
             mStatusTextView.setText(R.string.signed_out);
@@ -217,6 +243,8 @@ public class Login extends AppCompatActivity implements
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
             findViewById(R.id.fab).setVisibility(View.GONE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
+            findViewById(R.id.create_button).setVisibility(View.GONE);
+            cr.uid = "";
         }
     }
 
@@ -229,9 +257,9 @@ public class Login extends AppCompatActivity implements
             case R.id.sign_out_button:
                 signOut();
                 break;
-            case R.id.disconnect_button:
+            /*case R.id.disconnect_button:
                 revokeAccess();
-                break;
+                break;*/
         }
     }
 }

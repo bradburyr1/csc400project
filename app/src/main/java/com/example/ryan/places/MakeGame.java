@@ -12,31 +12,44 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import static com.example.ryan.places.R.id.fun;
+
 /**
  * Created by Ryan on 10/1/2017.
  */
 
-public class MarkerSearch {
+public class MakeGame {
     public String rst = "";//will contain the json string
 
-    public String title = "any";
-    public String city = "any";
-    public boolean comp = false;
-    public boolean fun = false;
+    String sport = "";
+    String city = "";
+    String time = "";
+    String address = "";
+    String date = "";
+    String comp = "";
+    String lat = "";
+    String lng = "";
+    String uid = "";
+
 
     public void starter(){
         Log.d("HELLO*************", "Starter");
-        fetch(title, city, comp, fun);
+        fetch(sport, city, time, address, date, comp, lat, lng, uid);
     }
 
-    public void fetch(String title, String city, boolean comp, boolean fun) {
+    public void fetch(String sport, String city, String time, String address, String date, String comp, String lat, String lng, String uid) {
         Log.d("HELLO*************", "Fetch");
         FetchMarkersTask fmt = new FetchMarkersTask();
         //move the user's search terms into the AsyncTask
-        fmt.title = title;
+        fmt.sport = sport;
         fmt.city = city;
+        fmt.time = time;
+        fmt.address = address;
+        fmt.date = date;
         fmt.comp = comp;
-        fmt.fun = fun;
+        fmt.lat = lat;
+        fmt.lng = lng;
+        fmt.uid = uid;
         fmt.execute();
     }
 
@@ -46,40 +59,38 @@ public class MarkerSearch {
         //these ip addresses are for testing with wampserver, will change to a better solution with google cloud
         final String ip_address = "192.168.1.19";//home
         final String project = "android_connect";
-        final String file = "search.php";
+        final String file = "create_game.php";
 
-        String title = "any";
-        String city = "any";
-        boolean comp = false;
-        boolean fun = false;
+        String sport = "";
+        String city = "";
+        String time = "";
+        String address = "";
+        String date = "";
+        String comp = "";
+        String lat = "";
+        String lng = "";
+        String uid = "";
 
         String builtUri = "http://" + ip_address + "/" + project + "/" + file;
 
         //@Override
         protected void onPostExecute(String result){
-            //MapsActivity ma = new MapsActivity();
-            SearchActivity sa = new SearchActivity();
-                Log.d("ONMAPREADY222222--", "ONMAPREADY");
-                //ma.parseJSON(result);
-                sa.acceptRes(result);
         }
 
         @Override
         protected String doInBackground(Void... params) {
-            Log.d("TEST_TEST_TEST", title);
+            Log.d("TEST_TEST_TEST", sport);
             HttpURLConnection urlConnection = null;
 
-            if(title.equals("")){
-                title = "any";
-            }
-            if(city.equals("")) {
-                city = "any";
-            }
-            title = title.toLowerCase();
+            sport = sport.toLowerCase();
             city = city.toLowerCase();
+            time = time.toLowerCase();
+            address = address.toLowerCase();
+            date = date.toLowerCase();
 
             builtUri += "?sport=" +
-                    title + "&city=" + city + "&comp=" + comp + "&fun=" + fun;
+                    sport + "&city=" + city + "&time=" + time + "&address=" + address +
+                    "&date=" + date + "&comp=" + comp + "&lat=" + lat + "&long=" + lng + "&uid=" + uid;
 
             String response = "";
             Log.d("HELLO*************", "doInBackground: " + builtUri);
@@ -103,7 +114,7 @@ public class MarkerSearch {
             }
 
             ////////////
-            //Log.d("JSON Line", response);
+            Log.d("JSON Line", response);
             rst = response;//store the json string
             ///////////
             return response;

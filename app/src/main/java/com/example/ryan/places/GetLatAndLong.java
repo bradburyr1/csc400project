@@ -8,35 +8,39 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+
+import static android.os.Build.VERSION_CODES.M;
+import static com.example.ryan.places.R.id.fun;
 
 /**
- * Created by Ryan on 10/1/2017.
+ * Created by Ryan on 10/29/2017.
  */
 
-public class MarkerSearch {
+public class GetLatAndLong {
     public String rst = "";//will contain the json string
 
-    public String title = "any";
-    public String city = "any";
-    public boolean comp = false;
-    public boolean fun = false;
+    public String house = "";
+    public String street = "";
+    public String streetSuf = "";
+    public String city = "";
+    public String state = "";
+    public String key = "";
 
     public void starter(){
         Log.d("HELLO*************", "Starter");
-        fetch(title, city, comp, fun);
+        fetch(house, street, streetSuf, city, state, key);
     }
 
-    public void fetch(String title, String city, boolean comp, boolean fun) {
+    public void fetch(String house, String street, String streetSuf, String city, String state, String key) {
         Log.d("HELLO*************", "Fetch");
         FetchMarkersTask fmt = new FetchMarkersTask();
         //move the user's search terms into the AsyncTask
-        fmt.title = title;
+        fmt.house = house;
+        fmt.street = street;
+        fmt.streetSuf = streetSuf;
         fmt.city = city;
-        fmt.comp = comp;
-        fmt.fun = fun;
+        fmt.state = state;
+        fmt.key = key;
         fmt.execute();
     }
 
@@ -44,42 +48,36 @@ public class MarkerSearch {
 
         //////////////////////////////////
         //these ip addresses are for testing with wampserver, will change to a better solution with google cloud
-        final String ip_address = "192.168.1.19";//home
-        final String project = "android_connect";
-        final String file = "search.php";
 
-        String title = "any";
-        String city = "any";
-        boolean comp = false;
-        boolean fun = false;
+        String house = "";
+        String street = "";
+        String streetSuf = "";
+        String city = "";
+        String state = "";
+        String key = "";
 
-        String builtUri = "http://" + ip_address + "/" + project + "/" + file;
+        String builtUri = "https://maps.googleapis.com/maps/api/geocode/json?address=";
 
         //@Override
         protected void onPostExecute(String result){
             //MapsActivity ma = new MapsActivity();
-            SearchActivity sa = new SearchActivity();
-                Log.d("ONMAPREADY222222--", "ONMAPREADY");
-                //ma.parseJSON(result);
-                sa.acceptRes(result);
+            create cr = new create();
+            Log.d("ONMAPREADY222222--", "ONMAPREADY");
+            try{
+                cr.parseForLatAndLong(result);
+            }
+            catch(IOException e)
+            {
+                Log.d("IO******EXCEPTION", "(acceptRes) Exception: " + e);
+            }
         }
 
         @Override
         protected String doInBackground(Void... params) {
-            Log.d("TEST_TEST_TEST", title);
+
             HttpURLConnection urlConnection = null;
 
-            if(title.equals("")){
-                title = "any";
-            }
-            if(city.equals("")) {
-                city = "any";
-            }
-            title = title.toLowerCase();
-            city = city.toLowerCase();
-
-            builtUri += "?sport=" +
-                    title + "&city=" + city + "&comp=" + comp + "&fun=" + fun;
+            builtUri += house + "+" + street + "+" + streetSuf + ",+" + city + ",+" + state + "&key=" + key;
 
             String response = "";
             Log.d("HELLO*************", "doInBackground: " + builtUri);
@@ -92,7 +90,6 @@ public class MarkerSearch {
                     String jsonResp = null;
                     while ((jsonResp = input.readLine()) != null) {
                         response = response.concat(jsonResp);
-                        //Log.d("HELLO*************", "While Loop");
                         //Log.d("HELLO*************", "Response: " + response);
                         //Log.d("HELLO*************", "jsonResp: " + jsonResp);
                     }
@@ -113,3 +110,4 @@ public class MarkerSearch {
     }
     //////////////////////////////////
 }
+

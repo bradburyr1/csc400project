@@ -56,13 +56,20 @@
             android:layout_weight="1"
             android:text="@string/sign_out" />
 
-        <Button
+        <!--<Button
             android:id="@+id/disconnect_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/disconnect"/>
+            android:text="@string/disconnect"/>-->
+        <Button
+            android:id="@+id/create_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/create"
+            tools:layout_editor_absoluteX="-223dp"
+            tools:layout_editor_absoluteY="612dp" />
     </LinearLayout>
     </RelativeLayout>
-
 </android.support.constraint.ConstraintLayout>
