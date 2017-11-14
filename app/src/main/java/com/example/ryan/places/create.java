@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,6 +34,9 @@ public class create extends AppCompatActivity {
     static String city = "";
     static String comp = "";
     static String uid = "";
+    static String state = "";
+
+    static boolean inputCheck = false;//check whether the input is good
 
     String latitude = "";
     String longitude = "";
@@ -62,16 +66,26 @@ public class create extends AppCompatActivity {
                 String city_content = cityE.getText().toString();
                 city = city_content;
 
+                StringTokenizer tokensCity = new StringTokenizer(city, " ");
+                String[] cityTokens = new String[tokensCity.countTokens()];
+                city = "";
+                for(int i = 0; i < cityTokens.length - 1; i++){
+                    city += tokensCity.nextToken() + newTok;
+                }
+                city += tokensCity.nextToken();
+
                 EditText addressE = (EditText)findViewById(R.id.Postal);
                 String postal_content = addressE.getText().toString();
                 address = postal_content;
 
                 //Obviously we can't send the address through with spaces
                 StringTokenizer tokens = new StringTokenizer(address, " ");
-                String houseNum = tokens.nextToken();
-                String streetName = tokens.nextToken();
-                String streetSuffix = tokens.nextToken();
-                address = houseNum + newTok + streetName + newTok + streetSuffix;
+                String[] addressTokens = new String[tokens.countTokens()];
+                address = "";
+                for(int i = 0; i < addressTokens.length - 1; i++){
+                    address += tokens.nextToken() + newTok;
+                }
+                address += tokens.nextToken();
 
                 EditText timeE = (EditText)findViewById(R.id.time);
                 String time_content = timeE.getText().toString();
@@ -105,15 +119,46 @@ public class create extends AppCompatActivity {
         //Geocoding API Key:
         String api_key = "AIzaSyA_RwGjahNWZ-gSpvS-B1lhAoCIYwzsFS4";
 
+        //city
+        StringTokenizer tokensCity = new StringTokenizer(city, " ");
+        String[] cityTokens = new String[tokensCity.countTokens()];
+
+        city = "";
+
+        for(int i = 0; i < cityTokens.length; i++){
+            if(i < cityTokens.length - 1){
+                city += tokensCity.nextToken() + "+";
+            }
+            else{
+                city += tokensCity.nextToken();
+            }
+        }
+
+        //postal address
         StringTokenizer tokens = new StringTokenizer(postal, " ");
-        String houseNum = tokens.nextToken();
+        /*String houseNum = tokens.nextToken();
         String streetName = tokens.nextToken();
-        String streetSuffix = tokens.nextToken();
+        String streetSuffix = tokens.nextToken();*/
+        String[] addressTokens = new String[tokens.countTokens()];
+
+        String glaladdress = "";
+
+        for(int i = 0; i < addressTokens.length; i++){
+            if(i < addressTokens.length - 1){
+                glaladdress += tokens.nextToken() + "+";
+            }
+            else{
+                glaladdress += tokens.nextToken();
+            }
+        }
+
+        Log.d("ADDRESS%%%%%%%%%5", "#" + glaladdress);
 
         GetLatAndLong glal = new GetLatAndLong();
-        glal.house = houseNum;
+        glal.address = glaladdress;
+        /*glal.house = houseNum;
         glal.street = streetName;
-        glal.streetSuf = streetSuffix;
+        glal.streetSuf = streetSuffix;*/
         glal.city = city;
         glal.state = state;
         glal.key = api_key;
@@ -137,6 +182,8 @@ public class create extends AppCompatActivity {
         }
         catch(JSONException j){
             Log.d("JSON******EXCEPTION", "Exception: " + j);
+            //Toast.makeText(getApplicationContext(), "There seems to be a problem with the address you entered",
+              //      Toast.LENGTH_SHORT).show();
         }
         //Log.d("ADDRESS@@@@@@@@@@@@@2", "#" + latitude + "#" + longitude);
 

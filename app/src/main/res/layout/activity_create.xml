@@ -103,7 +103,8 @@
             android:layout_below="@+id/city"
             android:ems="10"
             android:hint="State"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:maxLength="2"/>
 
     </RelativeLayout>
 

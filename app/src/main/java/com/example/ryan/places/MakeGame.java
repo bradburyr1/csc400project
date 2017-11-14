@@ -57,9 +57,12 @@ public class MakeGame {
 
         //////////////////////////////////
         //these ip addresses are for testing with wampserver, will change to a better solution with google cloud
-        final String ip_address = "192.168.1.19";//home
+        /*final String ip_address = "192.168.1.19";//home
         final String project = "android_connect";
-        final String file = "create_game.php";
+        final String file = "create_game.php";*/
+
+        //And, finally, the better solution with google cloud.
+        final String onlineURL = "https://csc-182021.appspot.com/create_game/";
 
         String sport = "";
         String city = "";
@@ -71,7 +74,11 @@ public class MakeGame {
         String lng = "";
         String uid = "";
 
-        String builtUri = "http://" + ip_address + "/" + project + "/" + file;
+        //for local:
+        //String builtUri = "http://" + ip_address + "/" + project + "/" + file;
+
+        //for gcp
+        String builtUri = onlineURL;
 
         //@Override
         protected void onPostExecute(String result){

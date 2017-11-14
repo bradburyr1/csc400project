@@ -25,12 +25,12 @@ public class MarkerSearch {
     public boolean fun = false;
 
     public void starter(){
-        Log.d("HELLO*************", "Starter");
+        //Log.d("HELLO*************", "Starter");
         fetch(title, city, comp, fun);
     }
 
     public void fetch(String title, String city, boolean comp, boolean fun) {
-        Log.d("HELLO*************", "Fetch");
+        //Log.d("HELLO*************", "Fetch");
         FetchMarkersTask fmt = new FetchMarkersTask();
         //move the user's search terms into the AsyncTask
         fmt.title = title;
@@ -44,29 +44,36 @@ public class MarkerSearch {
 
         //////////////////////////////////
         //these ip addresses are for testing with wampserver, will change to a better solution with google cloud
-        final String ip_address = "192.168.1.19";//home
+        /*final String ip_address = "192.168.1.19";//home
         final String project = "android_connect";
-        final String file = "search.php";
+        final String file = "search.php";*/
+
+        //And, finally, the better solution with google cloud.
+        final String onlineURL = "https://csc-182021.appspot.com/";
 
         String title = "any";
         String city = "any";
         boolean comp = false;
         boolean fun = false;
 
-        String builtUri = "http://" + ip_address + "/" + project + "/" + file;
+        //for local:
+        //String builtUri = "http://" + ip_address + "/" + project + "/" + file;
+
+        //for gcp
+        String builtUri = onlineURL;
 
         //@Override
         protected void onPostExecute(String result){
             //MapsActivity ma = new MapsActivity();
             SearchActivity sa = new SearchActivity();
-                Log.d("ONMAPREADY222222--", "ONMAPREADY");
+                //Log.d("ONMAPREADY222222--", "ONMAPREADY");
                 //ma.parseJSON(result);
                 sa.acceptRes(result);
         }
 
         @Override
         protected String doInBackground(Void... params) {
-            Log.d("TEST_TEST_TEST", title);
+            //Log.d("TEST_TEST_TEST", title);
             HttpURLConnection urlConnection = null;
 
             if(title.equals("")){
@@ -82,7 +89,7 @@ public class MarkerSearch {
                     title + "&city=" + city + "&comp=" + comp + "&fun=" + fun;
 
             String response = "";
-            Log.d("HELLO*************", "doInBackground: " + builtUri);
+            //Log.d("HELLO*************", "doInBackground: " + builtUri);
             try {
                 URL url = new URL(builtUri);
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -93,7 +100,7 @@ public class MarkerSearch {
                     while ((jsonResp = input.readLine()) != null) {
                         response = response.concat(jsonResp);
                         //Log.d("HELLO*************", "While Loop");
-                        //Log.d("HELLO*************", "Response: " + response);
+                        Log.d("HELLO*************", "Response: " + response);
                         //Log.d("HELLO*************", "jsonResp: " + jsonResp);
                     }
                     input.close();

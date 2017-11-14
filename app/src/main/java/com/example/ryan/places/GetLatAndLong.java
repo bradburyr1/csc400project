@@ -19,25 +19,27 @@ import static com.example.ryan.places.R.id.fun;
 public class GetLatAndLong {
     public String rst = "";//will contain the json string
 
-    public String house = "";
+    /*public String house = "";
     public String street = "";
-    public String streetSuf = "";
+    public String streetSuf = "";*/
+    public String address = "";
     public String city = "";
     public String state = "";
     public String key = "";
 
     public void starter(){
         Log.d("HELLO*************", "Starter");
-        fetch(house, street, streetSuf, city, state, key);
+        fetch(address, city, state, key);
     }
 
-    public void fetch(String house, String street, String streetSuf, String city, String state, String key) {
+    public void fetch(String address, String city, String state, String key) {
         Log.d("HELLO*************", "Fetch");
         FetchMarkersTask fmt = new FetchMarkersTask();
         //move the user's search terms into the AsyncTask
-        fmt.house = house;
+        /*fmt.house = house;
         fmt.street = street;
-        fmt.streetSuf = streetSuf;
+        fmt.streetSuf = streetSuf;*/
+        fmt.address = address;
         fmt.city = city;
         fmt.state = state;
         fmt.key = key;
@@ -49,9 +51,10 @@ public class GetLatAndLong {
         //////////////////////////////////
         //these ip addresses are for testing with wampserver, will change to a better solution with google cloud
 
-        String house = "";
+        /*String house = "";
         String street = "";
-        String streetSuf = "";
+        String streetSuf = "";*/
+        String address = "";
         String city = "";
         String state = "";
         String key = "";
@@ -77,7 +80,8 @@ public class GetLatAndLong {
 
             HttpURLConnection urlConnection = null;
 
-            builtUri += house + "+" + street + "+" + streetSuf + ",+" + city + ",+" + state + "&key=" + key;
+            //builtUri += house + "+" + street + "+" + streetSuf + ",+" + city + ",+" + state + "&key=" + key;
+            builtUri += address + ",+" + city + ",+" + state + "&key=" + key;
 
             String response = "";
             Log.d("HELLO*************", "doInBackground: " + builtUri);

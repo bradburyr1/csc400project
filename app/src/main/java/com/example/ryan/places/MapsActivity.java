@@ -8,12 +8,14 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,6 +24,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static com.example.ryan.places.R.id.map;
+import static java.security.AccessController.getContext;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -33,6 +36,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static double[] longitude;
     public static double[] latitude;
     public static String[] title;
+    public static String[] game_id;
+    public static String[] city;
+    public static String[] time;
+    public static String[] date;
+    public static String[] comp_level;
+    public static String[] postalAddress;
+    public static String[] user_id;
+
+    static int j = 0;
 
     public static String result = "";
 
@@ -75,11 +87,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             for (int i = 0; i < longitude.length; i++) {
                 mMap.addMarker(new MarkerOptions()
                         .position(new LatLng(latitude[i], longitude[i]))
-                        .title(title[i])
+                        .title(game_id[i])
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                j = i;
             }
         }
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                for (int i = 0; i < longitude.length; i++) {
+                    if(game_id[i].equals(marker.getTitle())){
+                    Log.d("clickedTitle@@@@@", "clickedTitle: " + postalAddress[i] + ", city: " + city[i]);
+                    }
+                }
+                return false;
+            }
+        });
     }
+
     public void parseJSON ()throws IOException {
         //sample json string for testing off wifi:
         /*String jsonString = "{\"markers\":[{\"latitude\":\"-34\",\"longitude\":\"151\",\"title\":\"Sydney\"},{\"latitude\"" +
@@ -96,6 +121,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             longitude = new double[markers.length()];
             latitude = new double[markers.length()];
             title = new String[markers.length()];
+            city = new String[markers.length()];
+            time = new String[markers.length()];
+            game_id = new String[markers.length()];
+            date = new String[markers.length()];
+            comp_level = new String[markers.length()];
+            postalAddress = new String[markers.length()];
+            user_id = new String[markers.length()];
 
             for(int i = 0; i < markers.length(); i++) {//loop to  work on each entry from "markers" individually
                 //turn the current json entry from markers (which will be individual points) into objects
@@ -106,10 +138,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 longitude[i] = point.getDouble("longitude");
                 latitude[i] = point.getDouble("latitude");
                 title[i] = point.getString("title");
+                game_id[i] = point.getString("gameid");
+                city[i] = point.getString("city");
+                time[i] = point.getString("time");
+                date[i] = point.getString("date");
+                comp_level[i] = point.getString("comp_level");
+                postalAddress[i] = point.getString("postalAddress");
+                user_id[i] = point.getString("user_id");
+
 
                 /*Log.d("Latitude^^^^^^^^^^^", "Latitude: " + latitude[i]);
                 Log.d("Longitude^^^^^^^^^^^", "Longitude: " + longitude[i]);
-                Log.d("Title^^^^^^^^^^^", "Title: " + title[i]);*/
+                Log.d("Title^^^^^^^^^^^", "Title: " + title[i]);
+                Log.d("postalAddress@@@@@", "postalAddress: " + postalAddress[i]);*/
             }
         }
         catch(JSONException j){

@@ -48,7 +48,7 @@
         <activity
             android:name=".WelcomeScreen"
             android:label="@string/title_activity_welcome_screen"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".Login">
             <intent-filter>
@@ -57,7 +57,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".create"></activity>
+        <activity android:name=".create" />
+        <activity android:name=".GameInfo"></activity>
     </application>
 
 </manifest>
