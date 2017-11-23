@@ -46,6 +46,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     static int j = 0;
 
+    GameInfo gi = new GameInfo();
+
     public static String result = "";
 
     SupportMapFragment mapFragment;
@@ -97,9 +99,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public boolean onMarkerClick(Marker marker) {
                 for (int i = 0; i < longitude.length; i++) {
                     if(game_id[i].equals(marker.getTitle())){
-                    Log.d("clickedTitle@@@@@", "clickedTitle: " + postalAddress[i] + ", city: " + city[i]);
+                    //Log.d("clickedTitle@@@@@", "clickedTitle: " + postalAddress[i] + ", city: " + city[i]);
+
+                        //Set all the variables for the GameInfo activity
+                        gi.title = title[i];
+                        gi.game_id = game_id[i];
+                        gi.city = city[i];
+                        gi.time = time[i];
+                        gi.date = date[i];
+                        gi.comp_level = comp_level[i];
+                        gi.postalAddress = postalAddress[i];
+                        gi.user_id = user_id[i];
                     }
                 }
+                startActivity(new Intent(MapsActivity.this, GameInfo.class));
                 return false;
             }
         });

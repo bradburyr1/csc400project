@@ -1,15 +1,23 @@
 package com.example.ryan.places;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.location.Address;
 import android.location.Geocoder;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -17,9 +25,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
+import static android.R.attr.value;
 import static com.example.ryan.places.R.id.add;
 import static com.example.ryan.places.R.id.city;
 
@@ -35,6 +45,10 @@ public class create extends AppCompatActivity {
     static String comp = "";
     static String uid = "";
     static String state = "";
+    static String forTimeShow = "";
+
+    static TextView timeShow;
+    static TextView dateShow;
 
     static boolean inputCheck = false;//check whether the input is good
 
@@ -45,6 +59,10 @@ public class create extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
+
+        timeShow = (TextView)findViewById(R.id.time_show);
+        dateShow = (TextView)findViewById(R.id.date_show);
+
 
         final Spinner spinner = (Spinner) findViewById(R.id.comp_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -87,18 +105,18 @@ public class create extends AppCompatActivity {
                 }
                 address += tokens.nextToken();
 
-                EditText timeE = (EditText)findViewById(R.id.time);
+                /*EditText timeE = (EditText)findViewById(R.id.time);
                 String time_content = timeE.getText().toString();
                 time = time_content;
 
                 StringTokenizer tokenTime = new StringTokenizer(time, ":");
                 String hour = tokenTime.nextToken();
                 String minute = tokenTime.nextToken();
-                time = hour + newTok + minute;
+                time = hour + newTok + minute;*/
 
-                EditText dateE = (EditText)findViewById(R.id.date);
+                /*EditText dateE = (EditText)findViewById(R.id.date);
                 String date_content = dateE.getText().toString();
-                date = date_content;
+                date = date_content;*/
 
                 EditText stateE = (EditText)findViewById(R.id.state);
                 String state_content = stateE.getText().toString();
@@ -198,5 +216,86 @@ public class create extends AppCompatActivity {
         mg.lat = latitude;
         mg.lng = longitude;
         mg.starter();
+    }
+/////////////////////////////////////////Time Picker
+    public void timeDialog(View v) {
+        DialogFragment newFragment = new TimePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "timePicker");
+    }
+    public static class TimePickerFragment extends DialogFragment
+            implements TimePickerDialog.OnTimeSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current time as the default values for the picker
+            final Calendar c = Calendar.getInstance();
+            int hour = c.get(Calendar.HOUR_OF_DAY);
+            int minute = c.get(Calendar.MINUTE);
+
+            // Create a new instance of TimePickerDialog and return it
+            return new TimePickerDialog(getActivity(), this, hour, minute,
+                    DateFormat.is24HourFormat(getActivity()));
+        }
+
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            // Do something with the time chosen by the user
+            String amOrPm = "";//will be assigned a string value
+            if(hourOfDay == 0){
+                hourOfDay = 12;
+                amOrPm = "AM";
+            }
+            else if(hourOfDay >= 12){
+                if(hourOfDay == 12){
+                    amOrPm = "PM";
+                }
+                else {
+                    hourOfDay -= 12;
+                    amOrPm = "PM";
+                }
+            }
+            else{
+                amOrPm = "AM";
+            }
+
+            String minuteFix = "";
+            if(minute != 0){
+                minuteFix = String.valueOf(minute);//In this case, no need to change anything
+            }
+            else {
+                minuteFix = "00";//Minute shows up with only one zero, such as "6:0". This will fix it
+            }
+
+            time = hourOfDay + "_" + minuteFix + "_" + amOrPm;
+            forTimeShow = hourOfDay + ":" + minuteFix + " " + amOrPm;
+
+            timeShow.setText(forTimeShow);
+
+            Log.d("TIME(((((((((((((", "#" + time);
+        }
+    }
+    ////////////////////////////////////////
+    /////////////////////////////////////////Date Picker
+    public void dateDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+    public static class DatePickerFragment extends DialogFragment
+            implements DatePickerDialog.OnDateSetListener {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current date as the default values for the picker
+            final Calendar c = Calendar.getInstance();
+            int day = c.get(Calendar.DAY_OF_MONTH);
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+
+            // Create a new instance of DatePickerDialog and return it
+            return new DatePickerDialog(getActivity(), this, year, month, day);
+        }
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            month ++;
+            date = month + "/" + day + "/" + year;
+            dateShow.setText(date);
+        }
     }
 }
