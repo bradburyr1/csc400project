@@ -44,6 +44,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static String[] postalAddress;
     public static String[] user_id;
 
+    public static String uid;
+
     static int j = 0;
 
     GameInfo gi = new GameInfo();
@@ -110,6 +112,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         gi.comp_level = comp_level[i];
                         gi.postalAddress = postalAddress[i];
                         gi.user_id = user_id[i];
+                        gi.uid = uid;
                     }
                 }
                 startActivity(new Intent(MapsActivity.this, GameInfo.class));

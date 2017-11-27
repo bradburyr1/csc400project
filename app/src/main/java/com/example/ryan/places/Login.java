@@ -2,6 +2,7 @@ package com.example.ryan.places;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -39,6 +40,8 @@ public class Login extends AppCompatActivity implements
     private ProgressDialog mProgressDialog;
 
     create cr = new create();
+    MapsActivity ma = new MapsActivity();
+    LoginCheck lc = new LoginCheck();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +92,13 @@ public class Login extends AppCompatActivity implements
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Login.this, create.class));
+            }
+        });
+        Button signedbutton = (Button) findViewById(R.id.signed_up);
+        signedbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Login.this, LoginCheck.class));
             }
         });
     }
@@ -147,12 +157,18 @@ public class Login extends AppCompatActivity implements
             mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getEmail()));
             String email = acct.getEmail();
 
-            StringTokenizer tokenTime = new StringTokenizer(email, "@");
+            StringTokenizer tokenTime = new StringTokenizer(email, "@.");
             String name = tokenTime.nextToken();
             String suffix = tokenTime.nextToken();
+            String last = tokenTime.nextToken();
             String newTok = "_";
-            email = name + newTok + suffix;
+            email = name + newTok + suffix + newTok + last;
             cr.uid = email;//We need change uid in the information on "makegame" in case the user decides to make a game
+            ma.uid = email;
+
+            //Login Check. This is to make sure that when the user logs in, they are in the system. If they're not, put them in.
+            lc.uid = email;
+            lc.starter();
 
             Log.d("%%%%%%%%%%%%%%%%%%%%%%", acct.getDisplayName());
             updateUI(true);
@@ -237,6 +253,8 @@ public class Login extends AppCompatActivity implements
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
             findViewById(R.id.create_button).setVisibility(View.VISIBLE);
             findViewById(R.id.fab).setVisibility(View.VISIBLE);
+            findViewById(R.id.owned).setVisibility(View.VISIBLE);
+            findViewById(R.id.signed_up).setVisibility(View.VISIBLE);
         } else {
             mStatusTextView.setText(R.string.signed_out);
 
@@ -244,6 +262,8 @@ public class Login extends AppCompatActivity implements
             findViewById(R.id.fab).setVisibility(View.GONE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
             findViewById(R.id.create_button).setVisibility(View.GONE);
+            findViewById(R.id.owned).setVisibility(View.GONE);
+            findViewById(R.id.signed_up).setVisibility(View.GONE);
             cr.uid = "";
         }
     }

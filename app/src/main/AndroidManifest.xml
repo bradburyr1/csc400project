@@ -58,7 +58,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".create" />
-        <activity android:name=".GameInfo"></activity>
+        <activity android:name=".GameInfo" />
+        <activity
+            android:name=".MyGames"
+            android:label="@string/title_activity_my_games"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
