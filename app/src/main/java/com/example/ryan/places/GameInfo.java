@@ -51,7 +51,13 @@ public class GameInfo extends AppCompatActivity {
         String[] newTimeArr = redo(time);
         String newTime = newTimeArr[0];
         try{//Some of the test games don't have the time formatted correctly (early example games)
-            newTime += ":" + newTimeArr[1] + " " + newTimeArr[2];
+            newTime += ":" + newTimeArr[1];
+        }
+        catch (ArrayIndexOutOfBoundsException a){
+            Log.d("Time array OOB(((((((", "Exception: " + a);
+        }
+        try{//Some of the test games don't have the time formatted correctly (early example games)
+            newTime += " " + newTimeArr[2];
         }
         catch (ArrayIndexOutOfBoundsException a){
             Log.d("Time array OOB(((((((", "Exception: " + a);
@@ -75,8 +81,14 @@ public class GameInfo extends AppCompatActivity {
         TextView ownertext = (TextView)findViewById(R.id.owner);
         String[] newOwnArr = redo(user_id);
         String newOwn = newOwnArr[0];
+        try{//Some of the earlier ones aren't formatted correctly
+            newOwn += "@" + newOwnArr[1];
+        }
+        catch (ArrayIndexOutOfBoundsException a){
+            Log.d("Owner array OOB(((((((", "Exception: " + a);
+        }
         try{//I didn't find out until later that I would need to replace the dot too in the email address.
-            newOwn += "@" + newOwnArr[1] + "." + newOwnArr[2];
+            newOwn += "." + newOwnArr[2];
         }
         catch (ArrayIndexOutOfBoundsException a){
             Log.d("Owner array OOB(((((((", "Exception: " + a);
@@ -103,6 +115,7 @@ public class GameInfo extends AppCompatActivity {
         ref_butt.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 su.role = "referee";
+                su.gid = game_id;
                 su.uid = uid;
                 su.starter();
             }

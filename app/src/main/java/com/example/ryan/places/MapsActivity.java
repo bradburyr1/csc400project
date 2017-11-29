@@ -84,6 +84,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Login l = new Login();
                 GameInfo gi = new GameInfo();
                 gi.view = 0;
+                gi.uid = uid;
                 l.acceptRes(result);
             }
         });
