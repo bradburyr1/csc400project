@@ -41,15 +41,8 @@ public class signup {
     }
 
     public class FetchMarkersTask extends AsyncTask<Void, Void, String> {
-
-        //////////////////////////////////
-        //these ip addresses are for testing with wampserver, will change to a better solution with google cloud
-        /*final String ip_address = "192.168.1.19";//home
-        final String project = "android_connect";
-        final String file = "search.php";*/
-
         //And, finally, the better solution with google cloud.
-        final String onlineURL = "https://csc-182021.appspot.com/";
+        final String onlineURL = "https://csc-182021.appspot.com/sign_up/";
 
         String gid = "";
         String uid = "";
@@ -63,11 +56,6 @@ public class signup {
 
         //@Override
         protected void onPostExecute(String result){
-            //MapsActivity ma = new MapsActivity();
-            SearchActivity sa = new SearchActivity();
-            //Log.d("ONMAPREADY222222--", "ONMAPREADY");
-            //ma.parseJSON(result);
-            sa.acceptRes(result);
         }
 
         @Override
@@ -80,7 +68,7 @@ public class signup {
 
             String response = "";
             Log.d("HELLO*************", "doInBackground: " + builtUri);
-            /*try {
+            try {
                 URL url = new URL(builtUri);
                 urlConnection = (HttpURLConnection) url.openConnection();
 
@@ -97,7 +85,7 @@ public class signup {
                 }
             } catch (IOException e) {
                 Log.d("HELLO*************", "HERES YOUR DANG STRING", e);
-            }*///////////
+            }
 
             ////////////
             //Log.d("JSON Line", response);

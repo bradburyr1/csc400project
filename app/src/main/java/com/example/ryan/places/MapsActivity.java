@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -22,7 +23,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
+import static android.os.Build.VERSION_CODES.M;
+import static com.example.ryan.places.GameInfo.view;
 import static com.example.ryan.places.R.id.map;
 import static java.security.AccessController.getContext;
 
@@ -30,7 +34,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     public static boolean jsonDone = false;
-    //GetAllMarkers gam = new GetAllMarkers();
+
+    MyGames mg = new MyGames();
 
     //These variables need to be static so they can be worked on by multiple methods
     public static double[] longitude;
@@ -72,6 +77,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(map);
         mapFragment.getMapAsync(this);
+
+        final Button chView = (Button) findViewById(R.id.list);
+        chView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Login l = new Login();
+                GameInfo gi = new GameInfo();
+                gi.view = 0;
+                l.acceptRes(result);
+            }
+        });
     }
 
     /**
@@ -115,6 +130,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         gi.uid = uid;
                     }
                 }
+                view = 0;
                 startActivity(new Intent(MapsActivity.this, GameInfo.class));
                 return false;
             }
@@ -122,12 +138,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void parseJSON ()throws IOException {
-        //sample json string for testing off wifi:
-        /*String jsonString = "{\"markers\":[{\"latitude\":\"-34\",\"longitude\":\"151\",\"title\":\"Sydney\"},{\"latitude\"" +
-                ":\"43\",\"longitude\":\"-77\",\"title\":\"Northeast US\"}],\"success\":1}";*/
 
         String res = result;
-        Log.d("MAPS^^^^^^ACTIVITY", "test: " + res);//gam: GetAllMarkers, rst: json string result
+        Log.d("MAPS^^^^^^ACTIVITY", "test: " + res);
 
 
         try {
@@ -162,6 +175,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 postalAddress[i] = point.getString("postalAddress");
                 user_id[i] = point.getString("user_id");
 
+                ///////////////////////////////////////
 
                 /*Log.d("Latitude^^^^^^^^^^^", "Latitude: " + latitude[i]);
                 Log.d("Longitude^^^^^^^^^^^", "Longitude: " + longitude[i]);

@@ -1,6 +1,7 @@
 package com.example.ryan.places;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+import java.io.IOException;
 import java.util.StringTokenizer;
 
 import static android.os.Build.VERSION_CODES.M;
@@ -43,10 +45,14 @@ public class Login extends AppCompatActivity implements
     MapsActivity ma = new MapsActivity();
     LoginCheck lc = new LoginCheck();
 
+    public static Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        context = getApplicationContext();
 
         // Views
         mStatusTextView = (TextView)findViewById(R.id.status);
@@ -94,11 +100,17 @@ public class Login extends AppCompatActivity implements
                 startActivity(new Intent(Login.this, create.class));
             }
         });
-        Button signedbutton = (Button) findViewById(R.id.signed_up);
+        Button signedbutton = (Button) findViewById(R.id.signed_up);//button that goes to MyGames with everything the user is signed up for
         signedbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Login.this, LoginCheck.class));
+                //sug.forward = true;//make sure it goes to MyGames
+                //startActivity(new Intent(Login.this, SignedUpGhost.class));
+                //sug.move();
+                GameInfo gi = new GameInfo();
+                gi.view = 1;
+                lc.go_to_games = true;
+                lc.starter();
             }
         });
     }
@@ -281,5 +293,22 @@ public class Login extends AppCompatActivity implements
                 revokeAccess();
                 break;*/
         }
+    }
+
+
+    /////////////
+    public void acceptRes(String result){
+        MyGames mg = new MyGames();
+        mg.result = result;
+
+        try{
+            mg.parseJSON();
+        }
+        catch(IOException e)
+        {
+            Log.d("IO******EXCEPTION", "(acceptRes) Exception: " + e);
+        }
+        Intent i = new Intent(context, MyGames.class);
+        context.startActivity(i);
     }
 }
