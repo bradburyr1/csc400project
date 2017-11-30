@@ -45,6 +45,8 @@ public class Login extends AppCompatActivity implements
     MapsActivity ma = new MapsActivity();
     LoginCheck lc = new LoginCheck();
 
+    public static String uid = "";
+
     public static Context context;
 
     @Override
@@ -104,13 +106,21 @@ public class Login extends AppCompatActivity implements
         signedbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //sug.forward = true;//make sure it goes to MyGames
-                //startActivity(new Intent(Login.this, SignedUpGhost.class));
-                //sug.move();
                 GameInfo gi = new GameInfo();
                 gi.view = 1;
                 lc.go_to_games = true;
                 lc.starter();
+            }
+        });
+        Button ownedButton = (Button) findViewById(R.id.owned);//button that goes to MyGames with everything the user is signed up for
+        ownedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GameInfo gi = new GameInfo();
+                gi.view = 2;
+                GetOwned go = new GetOwned();
+                go.uid = uid;
+                go.starter();
             }
         });
     }
@@ -157,7 +167,7 @@ public class Login extends AppCompatActivity implements
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
         }
-    }
+        }
     // [END onActivityResult]
 
     // [START handleSignInResult]
@@ -168,13 +178,13 @@ public class Login extends AppCompatActivity implements
             GoogleSignInAccount acct = result.getSignInAccount();
             mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getEmail()));
             String email = acct.getEmail();
-
             StringTokenizer tokenTime = new StringTokenizer(email, "@.");
             String name = tokenTime.nextToken();
             String suffix = tokenTime.nextToken();
             String last = tokenTime.nextToken();
             String newTok = "_";
             email = name + newTok + suffix + newTok + last;
+            uid = email;
             cr.uid = email;//We need change uid in the information on "makegame" in case the user decides to make a game
             ma.uid = email;
 

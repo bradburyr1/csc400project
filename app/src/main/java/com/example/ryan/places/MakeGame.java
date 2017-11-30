@@ -2,6 +2,7 @@ package com.example.ryan.places;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,7 +20,7 @@ import static com.example.ryan.places.R.id.fun;
  */
 
 public class MakeGame {
-    public String rst = "";//will contain the json string
+    public static String rst = "";//will contain the json string
 
     String sport = "";
     String city = "";
@@ -82,6 +83,9 @@ public class MakeGame {
 
         //@Override
         protected void onPostExecute(String result){
+            /*if(rst.equals("Insertion successful")){
+                Toast.makeText(this, "Game created", Toast.LENGTH_LONG).show();
+            }*/
         }
 
         @Override

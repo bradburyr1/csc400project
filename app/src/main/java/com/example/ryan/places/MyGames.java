@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -63,7 +64,14 @@ public class MyGames extends AppCompatActivity {
             Button game = new Button(this);
             game.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                     RelativeLayout.LayoutParams.WRAP_CONTENT));
-            game.setText(title[j] + " on " + date[j]);//What appears on the button is changeable here
+            //////////////
+            String[] newCityArr = redo(city[j]);
+            String newCity = "";
+            for(int k = 0; k < newCityArr.length; k++){
+                newCity += newCityArr[k] + " ";
+            }
+            //////////////
+            game.setText(title[j] + " on " + date[j] + " in " + newCity);//What appears on the button is changeable here
             game.setId(j + 1);
             game.setOnClickListener(new View.OnClickListener() {//Now what happens when the button is clicked
                 public void onClick(View v) {
