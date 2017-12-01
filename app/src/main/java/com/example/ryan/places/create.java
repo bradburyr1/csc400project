@@ -47,6 +47,9 @@ public class create extends AppCompatActivity {
     static String state = "";
     static String forTimeShow = "";
 
+    static String players = "";
+    static String refs = "";
+
     static TextView timeShow;
     static TextView dateShow;
 
@@ -75,15 +78,16 @@ public class create extends AppCompatActivity {
             public void onClick(View v) {
                 String newTok = "_";//The new token for those that need tokenizers
 
+                //Sport
                 EditText sportE = (EditText)findViewById(R.id.sport);
                 String sport_content = sportE.getText().toString();
                 sport = sport_content;
                 //Log.d("ADDRESS@@@@@@@@@@@@@2", "#" + sport + "#" + sport_content);
 
+                //City
                 EditText cityE = (EditText)findViewById(R.id.city);
                 String city_content = cityE.getText().toString();
                 city = city_content;
-
                 StringTokenizer tokensCity = new StringTokenizer(city, " ");
                 String[] cityTokens = new String[tokensCity.countTokens()];
                 city = "";
@@ -92,11 +96,10 @@ public class create extends AppCompatActivity {
                 }
                 city += tokensCity.nextToken();
 
+                //Address
                 EditText addressE = (EditText)findViewById(R.id.Postal);
                 String postal_content = addressE.getText().toString();
                 address = postal_content;
-
-                //Obviously we can't send the address through with spaces
                 StringTokenizer tokens = new StringTokenizer(address, " ");
                 String[] addressTokens = new String[tokens.countTokens()];
                 address = "";
@@ -105,24 +108,23 @@ public class create extends AppCompatActivity {
                 }
                 address += tokens.nextToken();
 
-                /*EditText timeE = (EditText)findViewById(R.id.time);
-                String time_content = timeE.getText().toString();
-                time = time_content;
-
-                StringTokenizer tokenTime = new StringTokenizer(time, ":");
-                String hour = tokenTime.nextToken();
-                String minute = tokenTime.nextToken();
-                time = hour + newTok + minute;*/
-
-                /*EditText dateE = (EditText)findViewById(R.id.date);
-                String date_content = dateE.getText().toString();
-                date = date_content;*/
-
+                //State
                 EditText stateE = (EditText)findViewById(R.id.state);
                 String state_content = stateE.getText().toString();
 
+                //Spinner for competition level
                 String spinner_content = spinner.getSelectedItem().toString();
                 comp = spinner_content;
+
+                //Maximum number of players
+                EditText playersEdit = (EditText)findViewById(R.id.max_players_edit);
+                String players_content = playersEdit.getText().toString();
+                players = players_content;
+
+                //Maximum number of referees
+                EditText refsEdit = (EditText)findViewById(R.id.max_refs_edit);
+                String refs_content = refsEdit.getText().toString();
+                refs = refs_content;
 
                 findLatAndLong(postal_content, city_content, state_content);
             }
@@ -215,6 +217,8 @@ public class create extends AppCompatActivity {
         mg.uid = uid;
         mg.lat = latitude;
         mg.lng = longitude;
+        mg.players = players;
+        mg.refs = refs;
         mg.starter();
     }
 /////////////////////////////////////////Time Picker

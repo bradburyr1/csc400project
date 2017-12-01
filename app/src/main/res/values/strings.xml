@@ -24,7 +24,7 @@
     <string name="create">Create a game</string>
     <string-array name="comp_level">
         <item>Competitive</item>
-        <item>Just For Fun</item>
+        <item>Fun</item>
     </string-array>
     <string name="uid"></string>
     <string name="title_activity_my_games">Games</string>

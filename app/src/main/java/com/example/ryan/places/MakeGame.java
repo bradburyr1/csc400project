@@ -31,14 +31,17 @@ public class MakeGame {
     String lat = "";
     String lng = "";
     String uid = "";
+    String players = "";
+    String refs = "";
 
 
     public void starter(){
         Log.d("HELLO*************", "Starter");
-        fetch(sport, city, time, address, date, comp, lat, lng, uid);
+        fetch(sport, city, time, address, date, comp, lat, lng, uid, players, refs);
     }
 
-    public void fetch(String sport, String city, String time, String address, String date, String comp, String lat, String lng, String uid) {
+    public void fetch(String sport, String city, String time, String address, String date,
+                      String comp, String lat, String lng, String uid, String players, String refs) {
         Log.d("HELLO*************", "Fetch");
         FetchMarkersTask fmt = new FetchMarkersTask();
         //move the user's search terms into the AsyncTask
@@ -51,6 +54,8 @@ public class MakeGame {
         fmt.lat = lat;
         fmt.lng = lng;
         fmt.uid = uid;
+        fmt.players = players;
+        fmt.refs = refs;
         fmt.execute();
     }
 
@@ -74,6 +79,8 @@ public class MakeGame {
         String lat = "";
         String lng = "";
         String uid = "";
+        String players = "";
+        String refs = "";
 
         //for local:
         //String builtUri = "http://" + ip_address + "/" + project + "/" + file;
@@ -101,7 +108,8 @@ public class MakeGame {
 
             builtUri += "?sport=" +
                     sport + "&city=" + city + "&time=" + time + "&address=" + address +
-                    "&date=" + date + "&comp=" + comp + "&lat=" + lat + "&long=" + lng + "&uid=" + uid;
+                    "&date=" + date + "&comp=" + comp + "&lat=" + lat +
+                    "&long=" + lng + "&uid=" + uid+ "&players=" + players + "&refs=" + refs;
 
             String response = "";
             Log.d("HELLO*************", "doInBackground: " + builtUri);

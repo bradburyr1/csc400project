@@ -29,15 +29,15 @@
             android:id="@+id/sport"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
             android:layout_marginLeft="66dp"
             android:layout_marginStart="66dp"
-            android:layout_marginTop="79dp"
+            android:layout_marginTop="28dp"
             android:ems="10"
             android:hint="Sport"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <!--<EditText
             android:id="@+id/date"
@@ -77,10 +77,12 @@
             android:id="@+id/Create"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/state"
+            android:layout_alignEnd="@+id/date_show"
             android:layout_alignParentBottom="true"
-            android:layout_alignRight="@+id/state"
-            android:layout_marginBottom="80dp"
+            android:layout_alignRight="@+id/date_show"
+            android:layout_marginBottom="36dp"
+            android:layout_marginEnd="13dp"
+            android:layout_marginRight="13dp"
             android:text="Create" />
 
         <EditText
@@ -98,12 +100,12 @@
             android:id="@+id/comp_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/date_show"
             android:layout_alignLeft="@+id/date_button"
-            android:layout_alignStart="@+id/date_button"
-            android:layout_toStartOf="@+id/Create"
-            android:layout_below="@+id/date_button"
             android:layout_alignRight="@+id/date_show"
-            android:layout_alignEnd="@+id/date_show" />
+            android:layout_alignStart="@+id/date_button"
+            android:layout_below="@+id/date_button"
+            android:layout_toStartOf="@+id/Create" />
 
         <EditText
             android:id="@+id/state"
@@ -162,6 +164,31 @@
             android:layout_toRightOf="@+id/date_button"
             android:hint="Date"
             android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/max_players_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/comp_spinner"
+            android:layout_alignLeft="@+id/comp_spinner"
+            android:layout_alignRight="@+id/comp_spinner"
+            android:layout_alignStart="@+id/comp_spinner"
+            android:layout_below="@+id/comp_spinner"
+            android:layout_toStartOf="@+id/Create"
+            android:ems="10"
+            android:hint="Maximum Players"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/max_refs_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/max_players_edit"
+            android:layout_alignStart="@+id/max_players_edit"
+            android:layout_below="@+id/max_players_edit"
+            android:ems="10"
+            android:hint="Maximum Referees"
+            android:inputType="number" />
 
     </RelativeLayout>
 
