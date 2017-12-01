@@ -48,6 +48,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static String[] comp_level;
     public static String[] postalAddress;
     public static String[] user_id;
+    public static String[] max_players;
+    public static String[] max_refs;
+    public static String[] curr_players;
+    public static String[] curr_refs;
 
     public static String uid;
 
@@ -129,6 +133,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         gi.postalAddress = postalAddress[i];
                         gi.user_id = user_id[i];
                         gi.uid = uid;
+                        gi.max_players = max_players[i];
+                        gi.max_refs = max_refs[i];
+                        gi.curr_players = curr_players[i];
+                        gi.curr_refs = curr_refs[i];
                     }
                 }
                 view = 0;
@@ -158,6 +166,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             comp_level = new String[markers.length()];
             postalAddress = new String[markers.length()];
             user_id = new String[markers.length()];
+            max_players = new String[markers.length()];
+            max_refs = new String[markers.length()];
+            curr_players = new String[markers.length()];
+            curr_refs = new String[markers.length()];
 
             for(int i = 0; i < markers.length(); i++) {//loop to  work on each entry from "markers" individually
                 //turn the current json entry from markers (which will be individual points) into objects
@@ -175,6 +187,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 comp_level[i] = point.getString("comp_level");
                 postalAddress[i] = point.getString("postalAddress");
                 user_id[i] = point.getString("user_id");
+                max_players[i] = point.getString("max_signed");
+                max_refs[i] = point.getString("max_refs");
+                curr_players[i] = point.getString("curr_signed");
+                curr_refs[i] = point.getString("curr_refs");
 
                 ///////////////////////////////////////
 

@@ -25,6 +25,10 @@ public class GameInfo extends AppCompatActivity {
     public static String postalAddress = "";
     public static String user_id = "";//Owner
     public static String uid = "";//User viewing
+    public static String max_players = "";
+    public static String max_refs = "";
+    public static String curr_players = "";
+    public static String curr_refs = "";
 
     static int view = 0;//0: from map
                         //1: games signed up for
@@ -36,9 +40,11 @@ public class GameInfo extends AppCompatActivity {
         setContentView(R.layout.activity_game_info);
 
         //This is where all the textviews get their information set to them
+        //Sport
         TextView sport = (TextView)findViewById(R.id.sport);
         sport.setText("Sport: " + title);
 
+        //City
         TextView citytext = (TextView)findViewById(R.id.city);
         String[] newCityArr = redo(city);
         String newCity = "";
@@ -47,6 +53,7 @@ public class GameInfo extends AppCompatActivity {
         }
         citytext.setText("City: " + newCity);
 
+        //Time
         TextView timetext = (TextView)findViewById(R.id.time);
         Log.d("Time Old Text(((((((", "Old Text: " + time);
         String[] newTimeArr = redo(time);
@@ -65,12 +72,15 @@ public class GameInfo extends AppCompatActivity {
         }
         timetext.setText("Time: " + newTime);
 
+        //Date
         TextView datetext = (TextView)findViewById(R.id.date);
         datetext.setText("Date: " + date);
 
+        //Competition level
         TextView comptext = (TextView)findViewById(R.id.compLevel);
         comptext.setText("Competitive Level: " + comp_level);
 
+        //Address
         TextView postal = (TextView)findViewById(R.id.postalAddress);
         String[] newAddrArr = redo(postalAddress);
         String newAddr = "";
@@ -79,6 +89,7 @@ public class GameInfo extends AppCompatActivity {
         }
         postal.setText("Address: " + newAddr);
 
+        //Owner
         TextView ownertext = (TextView)findViewById(R.id.owner);
         String[] newOwnArr = redo(user_id);
         String newOwn = newOwnArr[0];
@@ -109,6 +120,8 @@ public class GameInfo extends AppCompatActivity {
                 su.starter();
             }
         });
+
+        //Button to become a referee
         final Button ref_butt = (Button) findViewById(R.id.ref_button);
         if(view == 1 || view == 2){
             ref_butt.setVisibility(View.GONE);
@@ -121,11 +134,36 @@ public class GameInfo extends AppCompatActivity {
                 su.starter();
             }
         });
+
+        //Text View for "or"
         TextView orText = (TextView)findViewById(R.id.or);
         if(view == 1 || view == 2){
             orText.setVisibility(View.GONE);
         }
+
+        //Set the text for signed_up
+        TextView signedText = (TextView)findViewById(R.id.signed_view);
+        String signed_content = "";
+        if(!max_players.equals("0")){
+            signed_content = "Players: " + curr_players + "/" + max_players;
+        }
+        else{
+            signed_content = "Players: " + curr_players + "/No limit set";
+        }
+        signedText.setText(signed_content);
+
+        //Set the text for refs_view
+        TextView refText = (TextView)findViewById(R.id.refs_view);
+        String ref_content = "";
+        if(!max_refs.equals("0")){
+            ref_content = "Referees: " + curr_refs + "/" + max_refs;
+        }
+        else{
+            ref_content = "Referees: " + curr_refs + "/No limit set";
+        }
+        refText.setText(ref_content);
     }
+
     public String[] redo(String old){//A method for the part that is the same for each one that needs fixing
         StringTokenizer tokensNew = new StringTokenizer(old, "_");
         String[] newStr = new String[tokensNew.countTokens()];
