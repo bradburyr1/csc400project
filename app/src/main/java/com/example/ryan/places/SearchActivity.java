@@ -11,8 +11,11 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import java.io.IOException;
+import java.util.NoSuchElementException;
+import java.util.StringTokenizer;
 
 import static com.example.ryan.places.R.id.sport;
+import static com.example.ryan.places.create.comp;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -34,9 +37,21 @@ public class SearchActivity extends AppCompatActivity {
 
                 EditText sport = (EditText)findViewById(R.id.sport);
                 String sport_content = sport.getText().toString();
+                try {
+                    sport_content = redo(sport_content);
+                }
+                catch (NoSuchElementException n){
+                    Log.d("No Such Element", "Exception: " + n);
+                }
 
                 EditText city = (EditText)findViewById(R.id.city);
                 String city_content = city.getText().toString();
+                try{
+                    city_content = redo(city_content);
+                }
+                catch (NoSuchElementException n){
+                    Log.d("No Such Element", "Exception: " + n);
+                }
 
                 CheckBox comp = (CheckBox)findViewById(R.id.competitive);
                 boolean comp_bool = comp.isChecked();
@@ -76,5 +91,18 @@ public class SearchActivity extends AppCompatActivity {
 
         Intent i = new Intent(context, MapsActivity.class);
         context.startActivity(i);
+    }
+
+    public String redo(String old){//A method for the part that is the same for each one that needs fixing
+        StringTokenizer tokensNew = new StringTokenizer(old, " ");
+        String[] newStrArr = new String[tokensNew.countTokens()];
+        String newStr = "";
+        //Log.d("Count((((((((", "num: " + tokensNew.countTokens());
+        for(int i = 0; i < newStrArr.length - 1; i++){
+            newStr += tokensNew.nextToken() + "_";
+            //Log.d("New String(((((((", "newStr " + i + ": " + newStr[i]);
+        }
+        newStr += tokensNew.nextToken();
+        return newStr;
     }
 }

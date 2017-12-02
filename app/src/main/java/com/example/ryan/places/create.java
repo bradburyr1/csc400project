@@ -82,6 +82,13 @@ public class create extends AppCompatActivity {
                 EditText sportE = (EditText)findViewById(R.id.sport);
                 String sport_content = sportE.getText().toString();
                 sport = sport_content;
+                StringTokenizer tokensSport = new StringTokenizer(sport, " ");
+                String[] sportTokens = new String[tokensSport.countTokens()];
+                sport = "";
+                for(int i = 0; i < sportTokens.length - 1; i++){
+                    sport += tokensSport.nextToken() + newTok;
+                }
+                sport += tokensSport.nextToken();
                 //Log.d("ADDRESS@@@@@@@@@@@@@2", "#" + sport + "#" + sport_content);
 
                 //City

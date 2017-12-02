@@ -42,7 +42,12 @@ public class GameInfo extends AppCompatActivity {
         //This is where all the textviews get their information set to them
         //Sport
         TextView sport = (TextView)findViewById(R.id.sport);
-        sport.setText("Sport: " + title);
+        String[] newSportArr = redo(title);
+        String newTitle = "";
+        for(int i = 0; i < newSportArr.length; i++){
+            newTitle += newSportArr[i] + " ";
+        }
+        sport.setText("Sport: " + newTitle);
 
         //City
         TextView citytext = (TextView)findViewById(R.id.city);

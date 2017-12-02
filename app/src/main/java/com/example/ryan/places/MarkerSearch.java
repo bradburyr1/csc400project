@@ -89,7 +89,7 @@ public class MarkerSearch {
                     title + "&city=" + city + "&comp=" + comp + "&fun=" + fun;
 
             String response = "";
-            //Log.d("HELLO*************", "doInBackground: " + builtUri);
+            Log.d("HELLOttttttttt", "doInBackground: " + builtUri);
             try {
                 URL url = new URL(builtUri);
                 urlConnection = (HttpURLConnection) url.openConnection();
