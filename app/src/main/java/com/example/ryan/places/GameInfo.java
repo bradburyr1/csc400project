@@ -140,6 +140,23 @@ public class GameInfo extends AppCompatActivity {
             }
         });
 
+        //Leave game
+        final Button leave_butt = (Button) findViewById(R.id.leave_butt);
+        if(view == 1){
+            leave_butt.setVisibility(View.VISIBLE);
+        }
+        else {
+            leave_butt.setVisibility(View.GONE);
+        }
+        leave_butt.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Leave le = new Leave();
+                le.gid = game_id;
+                le.uid = uid;
+                le.starter();
+            }
+        });
+
         //Text View for "or"
         TextView orText = (TextView)findViewById(R.id.or);
         if(view == 1 || view == 2){
