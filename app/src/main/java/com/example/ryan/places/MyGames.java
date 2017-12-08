@@ -72,9 +72,12 @@ public class MyGames extends AppCompatActivity {
             //Sport
             String[] newSportArr = redo(title[j]);
             String newTitle = "";
-            for(int k = 0; k < newSportArr.length; k++){
+            int otherK = 0;
+            for(int k = 0; k < newSportArr.length - 1; k++){
                 newTitle += newSportArr[k] + " ";
+                otherK = k + 1;
             }
+            newTitle += newSportArr[otherK];//Trying to get rid of that extra space
             //City
             String[] newCityArr = redo(city[j]);
             String newCity = "";

@@ -13,33 +13,29 @@ import java.net.URL;
  * Created by Ryan on 12/7/2017.
  */
 
-public class Leave {
+public class GetAttendees {
     public String rst = "";//will contain the json string
 
     public String gid = "";
-    public String uid = "";
 
     public void starter(){
         //Log.d("HELLO*************", "Starter");
-        Log.d("HELLO***********", "doInBackground uid: " + uid);
-        fetch(gid, uid);
+        fetch(gid);
     }
 
-    public void fetch(String gid, String uid) {
+    public void fetch(String gid) {
         //Log.d("HELLO*************", "Fetch");
         FetchMarkersTask fmt = new FetchMarkersTask();
         //move the user's search terms into the AsyncTask
         fmt.gid = gid;
-        fmt.uid = uid;
         fmt.execute();
     }
 
     public class FetchMarkersTask extends AsyncTask<Void, Void, String> {
         //And, finally, the better solution with google cloud.
-        final String onlineURL = "https://csc-182021.appspot.com/leavegame/";
+        final String onlineURL = "https://csc-182021.appspot.com/attendees/";
 
         String gid = "";
-        String uid = "";
 
         //for local:
         //String builtUri = "http://" + ip_address + "/" + project + "/" + file;
@@ -49,6 +45,8 @@ public class Leave {
 
         //@Override
         protected void onPostExecute(String result){
+            GameInfo gi = new GameInfo();
+            gi.acceptRes(result);
         }
 
         @Override
@@ -57,7 +55,7 @@ public class Leave {
             HttpURLConnection urlConnection = null;
 
             builtUri += "?gid=" +
-                    gid + "&uid=" + uid;
+                    gid;
 
             String response = "";
             Log.d("HELLO*************", "doInBackground: " + builtUri);

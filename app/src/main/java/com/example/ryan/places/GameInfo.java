@@ -1,5 +1,7 @@
 package com.example.ryan.places;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,9 +10,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.StringTokenizer;
 
 import static android.R.attr.button;
+import static android.os.Build.VERSION_CODES.M;
 
 public class GameInfo extends AppCompatActivity {
 
@@ -30,6 +34,8 @@ public class GameInfo extends AppCompatActivity {
     public static String curr_players = "";
     public static String curr_refs = "";
 
+    public static Context context;
+
     static int view = 0;//0: from map
                         //1: games signed up for
                         //2: games owned
@@ -38,6 +44,8 @@ public class GameInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_info);
+
+        context = getApplicationContext();
 
         //This is where all the textviews get their information set to them
         //Sport
@@ -151,11 +159,30 @@ public class GameInfo extends AppCompatActivity {
         leave_butt.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Leave le = new Leave();
+                Log.d("HELLO***********", "doInBackground uid gi`: " + uid);
                 le.gid = game_id;
                 le.uid = uid;
                 le.starter();
             }
         });
+
+        //See who's attending a game
+        final Button attend = (Button) findViewById(R.id.attend_butt);
+        if(view == 2){
+            Log.d("HELLOvvvvv", "should be visible: " + view);
+            attend.setVisibility(View.VISIBLE);
+        }
+        else {
+            attend.setVisibility(View.GONE);
+        }
+        attend.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                GetAttendees ga = new GetAttendees();
+                ga.gid = game_id;
+                ga.starter();
+            }
+        });
+
 
         //Text View for "or"
         TextView orText = (TextView)findViewById(R.id.or);
@@ -195,5 +222,19 @@ public class GameInfo extends AppCompatActivity {
             //Log.d("New String(((((((", "newStr " + i + ": " + newStr[i]);
         }
         return newStr;
+    }
+    public void acceptRes(String result){
+        Attendees at = new Attendees();
+        at.result = result;
+
+        try{
+            at.parseJSON();
+        }
+        catch(IOException e)
+        {
+            Log.d("IO******EXCEPTION", "(acceptRes) Exception: " + e);
+        }
+        Intent i = new Intent(context, Attendees.class);
+        context.startActivity(i);
     }
 }

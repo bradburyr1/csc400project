@@ -108,6 +108,7 @@ public class Login extends AppCompatActivity implements
             public void onClick(View view) {
                 GameInfo gi = new GameInfo();
                 gi.view = 1;
+                gi.uid = uid;
                 lc.go_to_games = true;
                 lc.starter();
             }

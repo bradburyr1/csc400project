@@ -63,6 +63,10 @@
             android:name=".MyGames"
             android:label="@string/title_activity_my_games"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Attendees"
+            android:label="@string/title_activity_attendees"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
