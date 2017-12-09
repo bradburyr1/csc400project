@@ -19,6 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.StringTokenizer;
 
 import static com.example.ryan.places.MapsActivity.j;
@@ -104,7 +105,51 @@ public class MyGames extends AppCompatActivity {
                     startActivity(new Intent(MyGames.this, GameInfo.class));
                 }
             });
-            layout.addView(game);
+
+            //Hide games with past dates
+            String[] newDateArr = redoDate(date[j]);
+            int month = Integer.parseInt(newDateArr[0]);
+            int day = Integer.parseInt(newDateArr[1]);
+            int year = Integer.parseInt(newDateArr[2]);
+            boolean inFutute = true;//flag which will become false if the date is in the future
+
+            final Calendar c = Calendar.getInstance();
+            int currday = c.get(Calendar.DAY_OF_MONTH);
+            int curryear = c.get(Calendar.YEAR);
+            int currmonth = c.get(Calendar.MONTH);
+            currmonth++;
+
+            Log.d("dddddd", "Years: " + year + ", " + curryear);
+            Log.d("dddddd", "Months: " + month + ", " + currmonth);
+            Log.d("dddddd", "Days: " + day + ", " + currday);
+
+            if(year > curryear){//If year is greater, skip everything else
+                inFutute = true;
+            }
+            else if(year == curryear) {//If year is equal, check further
+                if (month > currmonth) {//if month is greater and year is equal, stop here
+                    inFutute = true;
+                }
+                else if (month == currmonth) {//check further if month and year are both equal
+                    if (day > currday) {//
+                        inFutute = true;
+                    }
+                    else if (day != currday){
+                        inFutute = false;
+                    }
+                }
+                else{
+                    inFutute = false;
+                }
+            }
+            else{
+                inFutute = false;
+            }
+
+            if(inFutute){
+                layout.addView(game);
+            }
+
         }
 
         //Easiest way to make the floating action button go away is to program it in and set its visibility to "GONE"
@@ -177,6 +222,16 @@ public class MyGames extends AppCompatActivity {
     public String[] redo(String old){//A method for the part that is the same for each one that needs fixing
         //In case I want it later it'll be here
         StringTokenizer tokensNew = new StringTokenizer(old, "_");
+        String[] newStr = new String[tokensNew.countTokens()];
+        Log.d("Count((((((((", "num: " + tokensNew.countTokens());
+        for(int i = 0; i < newStr.length; i++){
+            newStr[i] = tokensNew.nextToken();
+            Log.d("New String(((((((", "newStr " + i + ": " + newStr[i]);
+        }
+        return newStr;
+    }
+    public String[] redoDate(String old){//Just like redo, except just for date
+        StringTokenizer tokensNew = new StringTokenizer(old, "/");
         String[] newStr = new String[tokensNew.countTokens()];
         Log.d("Count((((((((", "num: " + tokensNew.countTokens());
         for(int i = 0; i < newStr.length; i++){

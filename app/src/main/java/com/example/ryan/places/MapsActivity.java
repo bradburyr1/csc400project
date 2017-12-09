@@ -22,8 +22,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import static android.os.Build.VERSION_CODES.M;
 import static com.example.ryan.places.GameInfo.view;
@@ -109,10 +111,53 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if (jsonDone == true) {
             for (int i = 0; i < longitude.length; i++) {
-                mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(latitude[i], longitude[i]))
-                        .title(game_id[i])
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+
+                //Hide markers for old games
+                String[] newDateArr = redoDate(date[i]);
+                int month = Integer.parseInt(newDateArr[0]);
+                int day = Integer.parseInt(newDateArr[1]);
+                int year = Integer.parseInt(newDateArr[2]);
+                boolean inFutute = true;//flag which will become false if the date is in the future
+
+                final Calendar c = Calendar.getInstance();
+                int currday = c.get(Calendar.DAY_OF_MONTH);
+                int curryear = c.get(Calendar.YEAR);
+                int currmonth = c.get(Calendar.MONTH);
+                currmonth++;
+
+                Log.d("dddddd", "Years: " + year + ", " + curryear);
+                Log.d("dddddd", "Months: " + month + ", " + currmonth);
+                Log.d("dddddd", "Days: " + day + ", " + currday);
+
+                if(year > curryear){//If year is greater, skip everything else
+                    inFutute = true;
+                }
+                else if(year == curryear) {//If year is equal, check further
+                    if (month > currmonth) {//if month is greater and year is equal, stop here
+                        inFutute = true;
+                    }
+                    else if (month == currmonth) {//check further if month and year are both equal
+                        if (day > currday) {//
+                            inFutute = true;
+                        }
+                        else if (day != currday){
+                            inFutute = false;
+                        }
+                    }
+                    else{
+                        inFutute = false;
+                    }
+                }
+                else{
+                    inFutute = false;
+                }
+
+                if(inFutute){
+                    mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(latitude[i], longitude[i]))
+                            .title(game_id[i])
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                }
                 j = i;
             }
         }
@@ -204,5 +249,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.d("JSON******EXCEPTION", "Exception: " + j);
         }
         jsonDone = true;
+    }
+    public String[] redoDate(String old){//Just like redo, except just for date
+        StringTokenizer tokensNew = new StringTokenizer(old, "/");
+        String[] newStr = new String[tokensNew.countTokens()];
+        Log.d("Count((((((((", "num: " + tokensNew.countTokens());
+        for(int i = 0; i < newStr.length; i++){
+            newStr[i] = tokensNew.nextToken();
+            Log.d("New String(((((((", "newStr " + i + ": " + newStr[i]);
+        }
+        return newStr;
     }
 }
