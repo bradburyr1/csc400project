@@ -201,7 +201,7 @@ public class GameInfo extends AppCompatActivity {
 
         //See who's attending a game
         final Button attend = (Button) findViewById(R.id.attend_butt);
-        if(view == 2){
+        if(view == 1 || view == 2){
             Log.d("HELLOvvvvv", "should be visible: " + view);
             attend.setVisibility(View.VISIBLE);
         }
