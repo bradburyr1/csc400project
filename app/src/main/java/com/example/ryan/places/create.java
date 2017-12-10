@@ -327,8 +327,11 @@ public class create extends AppCompatActivity {
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
 
+            DatePickerDialog dpd = new DatePickerDialog(getActivity(), this, year, month, day);
+            dpd.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+
             // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
+            return dpd;
         }
         public void onDateSet(DatePicker view, int year, int month, int day) {
             month ++;
