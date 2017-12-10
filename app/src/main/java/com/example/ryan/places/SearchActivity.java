@@ -21,6 +21,8 @@ public class SearchActivity extends AppCompatActivity {
 
     Login login = new Login();
 
+    public static String uid = "";
+
     MarkerSearch ms = new MarkerSearch();
     public static Context context;
 
@@ -65,7 +67,8 @@ public class SearchActivity extends AppCompatActivity {
                 ms.city = city_content;
                 ms.comp = comp_bool;
                 ms.fun = fun_bool;
-
+                Log.d("HELLOttttttttt", "SearchActivity: " + uid);
+                ms.uid = uid;
                 ms.starter();
             }
         });

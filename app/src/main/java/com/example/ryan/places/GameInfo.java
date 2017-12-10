@@ -120,13 +120,30 @@ public class GameInfo extends AppCompatActivity {
         }
         ownertext.setText("Game Owner: " + newOwn);
 
+        int currRefInt = Integer.parseInt(curr_refs);
+        int currPlayInt = Integer.parseInt(curr_players);
+        int maxRefInt = Integer.parseInt(max_refs);
+        int maxPlayInt = Integer.parseInt(max_players);
+
         //Button to sign up
         final Button signup_button = (Button) findViewById(R.id.signup);
-        if(view == 1 || view == 2){
+        final Button ref_butt = (Button) findViewById(R.id.ref_button);
+
+        if(view == 1 || view == 2|| currPlayInt >= maxPlayInt){
             signup_button.setVisibility(View.GONE);
         }
         signup_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Context context = getApplicationContext();
+                CharSequence text = "Signed up as a player";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+
+                signup_button.setVisibility(View.GONE);
+                ref_butt.setVisibility(View.GONE);
+
                 su.gid = game_id;
                 su.uid = uid;
                 su.role = "player";
@@ -135,12 +152,21 @@ public class GameInfo extends AppCompatActivity {
         });
 
         //Button to become a referee
-        final Button ref_butt = (Button) findViewById(R.id.ref_button);
-        if(view == 1 || view == 2){
+        if(view == 1 || view == 2 || currRefInt >= maxRefInt){
             ref_butt.setVisibility(View.GONE);
         }
         ref_butt.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Context context = getApplicationContext();
+                CharSequence text = "Signed up as a referee";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+
+                signup_button.setVisibility(View.GONE);
+                ref_butt.setVisibility(View.GONE);
+
                 su.role = "referee";
                 su.gid = game_id;
                 su.uid = uid;
@@ -183,33 +209,16 @@ public class GameInfo extends AppCompatActivity {
             }
         });
 
-
-        //Text View for "or"
-        TextView orText = (TextView)findViewById(R.id.or);
-        if(view == 1 || view == 2){
-            orText.setVisibility(View.GONE);
-        }
-
         //Set the text for signed_up
         TextView signedText = (TextView)findViewById(R.id.signed_view);
         String signed_content = "";
-        if(!max_players.equals("0")){
             signed_content = "Players: " + curr_players + "/" + max_players;
-        }
-        else{
-            signed_content = "Players: " + curr_players + "/No limit set";
-        }
         signedText.setText(signed_content);
 
         //Set the text for refs_view
         TextView refText = (TextView)findViewById(R.id.refs_view);
         String ref_content = "";
-        if(!max_refs.equals("0")){
             ref_content = "Referees: " + curr_refs + "/" + max_refs;
-        }
-        else{
-            ref_content = "Referees: " + curr_refs + "/No limit set";
-        }
         refText.setText(ref_content);
     }
 

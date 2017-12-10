@@ -23,13 +23,14 @@ public class MarkerSearch {
     public String city = "any";
     public boolean comp = false;
     public boolean fun = false;
+    public String uid = "";
 
     public void starter(){
         //Log.d("HELLO*************", "Starter");
-        fetch(title, city, comp, fun);
+        fetch(title, city, comp, fun, uid);
     }
 
-    public void fetch(String title, String city, boolean comp, boolean fun) {
+    public void fetch(String title, String city, boolean comp, boolean fun, String uid) {
         //Log.d("HELLO*************", "Fetch");
         FetchMarkersTask fmt = new FetchMarkersTask();
         //move the user's search terms into the AsyncTask
@@ -37,6 +38,7 @@ public class MarkerSearch {
         fmt.city = city;
         fmt.comp = comp;
         fmt.fun = fun;
+        fmt.uid = uid;
         fmt.execute();
     }
 
@@ -55,6 +57,7 @@ public class MarkerSearch {
         String city = "any";
         boolean comp = false;
         boolean fun = false;
+        String uid = "";
 
         //for local:
         //String builtUri = "http://" + ip_address + "/" + project + "/" + file;
@@ -86,7 +89,7 @@ public class MarkerSearch {
             city = city.toLowerCase();
 
             builtUri += "?sport=" +
-                    title + "&city=" + city + "&comp=" + comp + "&fun=" + fun;
+                    title + "&city=" + city + "&comp=" + comp + "&fun=" + fun +"&uid=" + uid;
 
             String response = "";
             Log.d("HELLOttttttttt", "doInBackground: " + builtUri);

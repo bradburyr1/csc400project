@@ -3,6 +3,7 @@ package com.example.ryan.places;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.support.v4.app.DialogFragment;
@@ -127,13 +128,39 @@ public class create extends AppCompatActivity {
                 EditText playersEdit = (EditText)findViewById(R.id.max_players_edit);
                 String players_content = playersEdit.getText().toString();
                 players = players_content;
+                int intplayers = Integer.parseInt(players);
 
                 //Maximum number of referees
                 EditText refsEdit = (EditText)findViewById(R.id.max_refs_edit);
                 String refs_content = refsEdit.getText().toString();
                 refs = refs_content;
+                int intrefs = Integer.parseInt(refs);
 
-                findLatAndLong(postal_content, city_content, state_content);
+                if(intplayers <= 0){
+                    Context context = getApplicationContext();
+                    CharSequence text = "Number of players must be greater than 0.";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
+                else if(intrefs < 0){
+                    Context context = getApplicationContext();
+                    CharSequence text = "Number of referees cannot be less than 0.";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
+                else {
+                    Context context = getApplicationContext();
+                    CharSequence text = "Game created";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                    findLatAndLong(postal_content, city_content, state_content);
+                }
             }
         });
     }

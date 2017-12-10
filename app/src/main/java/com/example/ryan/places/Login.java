@@ -91,6 +91,9 @@ public class Login extends AppCompatActivity implements
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SearchActivity sa = new SearchActivity();
+                Log.d("HELLOttttttttt", "Login: " + uid);
+                sa.uid = uid;
                 startActivity(new Intent(Login.this, SearchActivity.class));
             }
         });
