@@ -185,7 +185,14 @@ public class GameInfo extends AppCompatActivity {
         leave_butt.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Leave le = new Leave();
-                Log.d("HELLO***********", "doInBackground uid gi`: " + uid);
+                //Show a message
+                Context context = getApplicationContext();
+                CharSequence text = "You left the game";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+
                 le.gid = game_id;
                 le.uid = uid;
                 le.starter();
@@ -244,6 +251,11 @@ public class GameInfo extends AppCompatActivity {
             Log.d("IO******EXCEPTION", "(acceptRes) Exception: " + e);
         }
         Intent i = new Intent(context, Attendees.class);
+        context.startActivity(i);
+    }
+    //Go to login. This will prevent people from trying to leave games more than once
+    public void toLogin(){
+        Intent i = new Intent(context, Login.class);
         context.startActivity(i);
     }
 }

@@ -64,48 +64,23 @@
                 android:layout_height="wrap_content"
                 android:text="@string/sign_out" />
 
-            <!--<Button
-            android:id="@+id/disconnect_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/disconnect"/>-->
             <Button
                 android:id="@+id/create_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.00"
-                android:text="@string/create"
-                tools:layout_editor_absoluteX="-223dp"
-                tools:layout_editor_absoluteY="612dp" />
+                android:text="@string/create"/>
 
             <Button
                 android:id="@+id/owned"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="28dp"
-                android:layout_toEndOf="@+id/fab"
-                android:layout_toRightOf="@+id/fab"
-                android:text="Games I Made"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_constraintLeft_creator="1"
-                tools:layout_constraintTop_creator="1" />
+                android:text="Games I Made"/>
 
             <Button
                 android:id="@+id/signed_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/owned"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="18dp"
-                android:text="Games I'm Signed Up For"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                tools:layout_constraintBottom_creator="1"
-                tools:layout_constraintLeft_creator="1" />
+                android:text="Games I'm Signed Up For"/>
         </LinearLayout>
     </RelativeLayout>
 

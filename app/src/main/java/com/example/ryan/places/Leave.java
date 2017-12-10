@@ -49,6 +49,8 @@ public class Leave {
 
         //@Override
         protected void onPostExecute(String result){
+            GameInfo ga = new GameInfo();
+            ga.toLogin();
         }
 
         @Override
