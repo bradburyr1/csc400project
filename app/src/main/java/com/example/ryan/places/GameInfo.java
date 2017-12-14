@@ -251,11 +251,13 @@ public class GameInfo extends AppCompatActivity {
             Log.d("IO******EXCEPTION", "(acceptRes) Exception: " + e);
         }
         Intent i = new Intent(context, Attendees.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(i);
     }
     //Go to login. This will prevent people from trying to leave games more than once
     public void toLogin(){
         Intent i = new Intent(context, Login.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(i);
     }
 }

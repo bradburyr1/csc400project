@@ -323,6 +323,7 @@ public class Login extends AppCompatActivity implements
             Log.d("IO******EXCEPTION", "(acceptRes) Exception: " + e);
         }
         Intent i = new Intent(context, MyGames.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(i);
     }
 }

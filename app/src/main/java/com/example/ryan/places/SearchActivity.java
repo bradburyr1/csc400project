@@ -93,6 +93,7 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         Intent i = new Intent(context, MapsActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(i);
     }
 
