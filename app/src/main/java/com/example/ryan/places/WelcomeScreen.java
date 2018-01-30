@@ -9,6 +9,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
+/*
+This was the original main menu before logging in was implemented, and is no longer used
+ */
+
 public class WelcomeScreen extends AppCompatActivity {
 
     Login login = new Login();

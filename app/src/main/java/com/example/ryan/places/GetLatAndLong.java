@@ -16,6 +16,10 @@ import static com.example.ryan.places.R.id.fun;
  * Created by Ryan on 10/29/2017.
  */
 
+/*
+This is where latitude and longitude information is obtained from a google api based on address, using a background task
+ */
+
 public class GetLatAndLong {
     public String rst = "";//will contain the json string
 

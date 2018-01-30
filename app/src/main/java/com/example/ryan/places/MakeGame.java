@@ -19,6 +19,10 @@ import static com.example.ryan.places.R.id.fun;
  * Created by Ryan on 10/1/2017.
  */
 
+/*
+This is the background task that adds games to the database
+ */
+
 public class MakeGame {
     public static String rst = "";//will contain the json string
 

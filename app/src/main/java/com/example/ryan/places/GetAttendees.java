@@ -13,6 +13,11 @@ import java.net.URL;
  * Created by Ryan on 12/7/2017.
  */
 
+/*
+This is the background task that gets the information from the server about who is attending a game, which will be
+displayed in the attendee activity
+ */
+
 public class GetAttendees {
     public String rst = "";//will contain the json string
 

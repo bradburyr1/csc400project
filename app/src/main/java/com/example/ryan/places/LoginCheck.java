@@ -18,6 +18,11 @@ import static android.os.Build.VERSION_CODES.M;
  * Created by Ryan on 11/26/2017.
  */
 
+/*
+When the user logs in, the program needs to know whether they have ever used this app, and if they haven't,
+they need to be added into the system. If they are in the system it returns a list of what they are signed up for.
+ */
+
 public class LoginCheck {
     public String rst = "";//will contain the json string
 

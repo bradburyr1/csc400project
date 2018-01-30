@@ -18,6 +18,10 @@ import static com.example.ryan.places.create.comp;
  * Created by Ryan on 11/26/2017.
  */
 
+/*
+This is the background task that signs a user up for games
+ */
+
 public class signup {
     public String rst = "";//will contain the json string
 

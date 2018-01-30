@@ -13,6 +13,10 @@ import java.net.URL;
  * Created by Ryan on 12/7/2017.
  */
 
+/*
+This is a background task that removes the user from a game if they choose to leave it
+ */
+
 public class Leave {
     public String rst = "";//will contain the json string
 

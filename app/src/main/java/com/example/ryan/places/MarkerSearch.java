@@ -16,6 +16,11 @@ import java.util.concurrent.TimeoutException;
  * Created by Ryan on 10/1/2017.
  */
 
+/*
+This is the background task for searching for games to play in. Games the user has already signed up for are not shown.
+Results will automatically go to the map, but a button is on the map to show as a list. 
+ */
+
 public class MarkerSearch {
     public String rst = "";//will contain the json string
 

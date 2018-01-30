@@ -15,6 +15,10 @@ import static com.example.ryan.places.GameInfo.title;
  * Created by Ryan on 11/29/2017.
  */
 
+/*
+This is a background task that gets which games the user has made
+ */
+
 public class GetOwned {
     public String rst = "";//will contain the json string
 
@@ -66,7 +70,7 @@ public class GetOwned {
                     uid;
 
             String response = "";
-            //Log.d("HELLOgogogo", "doInBackground: " + builtUri);
+            Log.d("HELLOgogogo", "doInBackground: " + builtUri);
             try {
                 URL url = new URL(builtUri);
                 urlConnection = (HttpURLConnection) url.openConnection();

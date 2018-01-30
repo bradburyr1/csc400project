@@ -21,6 +21,11 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
+/*
+This is the view for seeing who will be attending a game, and it is linked to from games a user owns and games a user is
+signed up for
+ */
+
 public class Attendees extends AppCompatActivity {
 
     public static Context context;

@@ -32,6 +32,10 @@ import static com.example.ryan.places.GameInfo.view;
 import static com.example.ryan.places.R.id.map;
 import static java.security.AccessController.getContext;
 
+/*
+This is the activity for the map that displays search results
+ */
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -84,7 +88,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(map);
         mapFragment.getMapAsync(this);
 
-        final Button chView = (Button) findViewById(R.id.list);
+        final Button chView = (Button) findViewById(R.id.list);//Change view to a list
         chView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Login l = new Login();

@@ -15,6 +15,10 @@ import java.util.concurrent.TimeoutException;
  * Created by Ryan on 7/20/2017.
  */
 
+/*
+This is no longer used by the app, but it was as first before the search functionality was implemented
+ */
+
 public class GetAllMarkers extends ListActivity {
     public String rst = "";//will contain the json string
 

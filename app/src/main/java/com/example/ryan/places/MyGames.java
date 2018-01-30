@@ -24,6 +24,11 @@ import java.util.StringTokenizer;
 
 import static com.example.ryan.places.MapsActivity.j;
 
+/*
+This activity is the list view that displays a user's owned games, the games they're signed up for, or it can be used as a replacement for
+the map view, accessible from a button on the map.
+ */
+
 public class MyGames extends AppCompatActivity {
 
     public static Context context;

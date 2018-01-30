@@ -30,6 +30,10 @@ import java.util.StringTokenizer;
 import static android.os.Build.VERSION_CODES.M;
 import static com.example.ryan.places.create.time;
 
+/*
+This activity acts as the main menu to the app, where the user will sign in, sign out, and go to the other activities from.
+ */
+
 public class Login extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener {

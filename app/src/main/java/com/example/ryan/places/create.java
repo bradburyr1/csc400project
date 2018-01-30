@@ -34,6 +34,10 @@ import static android.R.attr.value;
 import static com.example.ryan.places.R.id.add;
 import static com.example.ryan.places.R.id.city;
 
+/*
+This is the activity where the user can create games
+ */
+
 public class create extends AppCompatActivity {
 
     MakeGame mg = new MakeGame();

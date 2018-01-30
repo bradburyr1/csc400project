@@ -16,6 +16,10 @@ import java.util.StringTokenizer;
 import static android.R.attr.button;
 import static android.os.Build.VERSION_CODES.M;
 
+/*
+This activity shows the information about a game, such as what sport, when, where, etc.
+ */
+
 public class GameInfo extends AppCompatActivity {
 
     signup su = new signup();
