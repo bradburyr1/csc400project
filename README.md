@@ -34,7 +34,7 @@ A list of the results:
 
 More information about games: 
 
-![alt text](/Screenshots/Screenshot_20171202-192244 v2.png)
+![alt text](/Screenshots/Screenshot_20171202-192244v2.png)
 
 
 This screen is also used when viewing games already signed up for and games created. 
