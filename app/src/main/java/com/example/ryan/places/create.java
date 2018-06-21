@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import org.apache.http.protocol.HttpContext;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,6 +42,8 @@ This is the activity where the user can create games
 public class create extends AppCompatActivity {
 
     MakeGame mg = new MakeGame();
+
+    public static HttpContext localContext;
 
     static String sport = "";
     static String time = "";
@@ -245,6 +248,7 @@ public class create extends AppCompatActivity {
         }
         //Log.d("ADDRESS@@@@@@@@@@@@@2", "#" + latitude + "#" + longitude);
 
+        mg.localContext = localContext;
         mg.sport = sport;
         Log.d("ADDRESS@@@@@@@@@@@@@2", "#" + sport + "#" + mg.sport);
         mg.city = city;

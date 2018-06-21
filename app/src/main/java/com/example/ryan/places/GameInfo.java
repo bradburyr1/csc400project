@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.protocol.HttpContext;
+
 import java.io.IOException;
 import java.util.StringTokenizer;
 
@@ -23,6 +25,8 @@ This activity shows the information about a game, such as what sport, when, wher
 public class GameInfo extends AppCompatActivity {
 
     signup su = new signup();
+
+    public static HttpContext localContext;
 
     public static String title = "";
     public static String game_id = "";
@@ -148,6 +152,7 @@ public class GameInfo extends AppCompatActivity {
                 signup_button.setVisibility(View.GONE);
                 ref_butt.setVisibility(View.GONE);
 
+                su.localContext = localContext;
                 su.gid = game_id;
                 su.uid = uid;
                 su.role = "player";
@@ -171,6 +176,7 @@ public class GameInfo extends AppCompatActivity {
                 signup_button.setVisibility(View.GONE);
                 ref_butt.setVisibility(View.GONE);
 
+                su.localContext = localContext;
                 su.role = "referee";
                 su.gid = game_id;
                 su.uid = uid;
@@ -197,6 +203,7 @@ public class GameInfo extends AppCompatActivity {
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
 
+                le.localContext = localContext;
                 le.gid = game_id;
                 le.uid = uid;
                 le.starter();
@@ -215,6 +222,8 @@ public class GameInfo extends AppCompatActivity {
         attend.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 GetAttendees ga = new GetAttendees();
+                Log.d("GI", "The LocalContext GA: " + localContext);
+                ga.localContext = localContext;
                 ga.gid = game_id;
                 ga.starter();
             }

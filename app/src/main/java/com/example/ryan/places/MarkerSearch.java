@@ -3,6 +3,14 @@ package com.example.ryan.places;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HttpContext;
+import org.apache.http.util.EntityUtils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,6 +19,8 @@ import java.net.URL;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Ryan on 10/1/2017.
@@ -23,6 +33,8 @@ Results will automatically go to the map, but a button is on the map to show as 
 
 public class MarkerSearch {
     public String rst = "";//will contain the json string
+
+    public static HttpContext localContext;
 
     public String title = "any";
     public String city = "any";
@@ -48,10 +60,7 @@ public class MarkerSearch {
     }
 
     public class FetchMarkersTask extends AsyncTask<Void, Void, String> {
-
-        //////////////////////////////////
-        //these ip addresses are for testing with wampserver, will change to a better solution with google cloud
-        /*final String ip_address = "192.168.1.19";//home
+        /*final String ip_address = "192.168.1.18";//home
         final String project = "android_connect";
         final String file = "search.php";*/
 
@@ -94,34 +103,30 @@ public class MarkerSearch {
             city = city.toLowerCase();
 
             builtUri += "?sport=" +
-                    title + "&city=" + city + "&comp=" + comp + "&fun=" + fun +"&uid=" + uid;
+                    title + "&city=" + city + "&comp=" + comp + "&fun=" + fun;
 
-            String response = "";
-            Log.d("HELLOttttttttt", "doInBackground: " + builtUri);
+            String response1 = "";
+
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpPost httpPost = new HttpPost(builtUri);
+
             try {
-                URL url = new URL(builtUri);
-                urlConnection = (HttpURLConnection) url.openConnection();
+                Log.d(TAG, "The LocalContext markersearch: " + localContext);
 
-                if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                    BufferedReader input = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()), 8192);
-                    String jsonResp = null;
-                    while ((jsonResp = input.readLine()) != null) {
-                        response = response.concat(jsonResp);
-                        //Log.d("HELLO*************", "While Loop");
-                        Log.d("HELLO*************", "Response: " + response);
-                        //Log.d("HELLO*************", "jsonResp: " + jsonResp);
-                    }
-                    input.close();
-                }
+                HttpResponse response = httpClient.execute(httpPost, localContext);
+                int statusCode = response.getStatusLine().getStatusCode();
+                final String responseBody = EntityUtils.toString(response.getEntity());
+                response1 = responseBody;
+                Log.i(TAG, "Response from server (markersearch): " + responseBody);
+            } catch (ClientProtocolException e) {
+                Log.e(TAG, "Error sending ID token to backend.", e);
             } catch (IOException e) {
-                Log.d("HELLO*************", "HERES YOUR DANG STRING", e);
+                Log.e(TAG, "Error sending ID token to backend.", e);
             }
 
-            ////////////
-            //Log.d("JSON Line", response);
-            rst = response;//store the json string
+            rst = response1;//store the json string
             ///////////
-            return response;
+            return response1;
         }
 
         //return response;

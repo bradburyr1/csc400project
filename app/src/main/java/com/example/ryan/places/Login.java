@@ -24,6 +24,8 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+import org.apache.http.protocol.HttpContext;
+
 import java.io.IOException;
 import java.util.StringTokenizer;
 
@@ -50,6 +52,7 @@ public class Login extends AppCompatActivity implements
     LoginCheck lc = new LoginCheck();
 
     public static String uid = "";
+    public static String idToken = "";
 
     public static Context context;
 
@@ -72,6 +75,7 @@ public class Login extends AppCompatActivity implements
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.server_client_id))
                 .requestEmail()
                 .build();
         // [END configure_signin]
@@ -96,7 +100,8 @@ public class Login extends AppCompatActivity implements
             @Override
             public void onClick(View view) {
                 SearchActivity sa = new SearchActivity();
-                Log.d("HELLOttttttttt", "Login: " + uid);
+                //Log.d("HELLOttttttttt", "Login: " + uid);
+                sa.localContext = lc.localContext;
                 sa.uid = uid;
                 startActivity(new Intent(Login.this, SearchActivity.class));
             }
@@ -106,6 +111,8 @@ public class Login extends AppCompatActivity implements
         createbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                create c = new create();
+                c.localContext = lc.localContext;
                 startActivity(new Intent(Login.this, create.class));
             }
         });
@@ -115,8 +122,10 @@ public class Login extends AppCompatActivity implements
             public void onClick(View view) {
                 GameInfo gi = new GameInfo();
                 gi.view = 1;
+                gi.localContext = lc.localContext;
                 gi.uid = uid;
                 lc.go_to_games = true;
+                lc.idTok = idToken;
                 lc.starter();
             }
         });
@@ -127,7 +136,9 @@ public class Login extends AppCompatActivity implements
                 GameInfo gi = new GameInfo();
                 gi.view = 2;
                 GetOwned go = new GetOwned();
-                go.uid = uid;
+                go.idTok = idToken;
+                go.localContext = lc.localContext;
+                //go.uid = uid;
                 go.starter();
             }
         });
@@ -165,7 +176,6 @@ public class Login extends AppCompatActivity implements
         hideProgressDialog();
     }
 
-    // [START onActivityResult]
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -176,15 +186,14 @@ public class Login extends AppCompatActivity implements
             handleSignInResult(result);
         }
         }
-    // [END onActivityResult]
 
-    // [START handleSignInResult]
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getEmail()));
+            idToken = acct.getIdToken();
             String email = acct.getEmail();
             StringTokenizer tokenTime = new StringTokenizer(email, "@.");
             String name = tokenTime.nextToken();
@@ -197,7 +206,8 @@ public class Login extends AppCompatActivity implements
             ma.uid = email;
 
             //Login Check. This is to make sure that when the user logs in, they are in the system. If they're not, put them in.
-            lc.uid = email;
+            lc.idTok = idToken;
+            lc.signing_in = true;
             lc.starter();
 
             Log.d("%%%%%%%%%%%%%%%%%%%%%%", acct.getDisplayName());
@@ -209,16 +219,12 @@ public class Login extends AppCompatActivity implements
             Log.d("%%%%%%%%%%%%%%%%%%%%%%", ""+result.getStatus());
         }
     }
-    // [END handleSignInResult]
 
-    // [START signIn]
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
-    // [END signIn]
 
-    // [START signOut]
     public void signOut() {
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
@@ -230,21 +236,6 @@ public class Login extends AppCompatActivity implements
                     }
                 });
     }
-    // [END signOut]
-
-    // [START revokeAccess]
-    private void revokeAccess() {
-        Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        // [START_EXCLUDE]
-                        updateUI(false);
-                        // [END_EXCLUDE]
-                    }
-                });
-    }
-    // [END revokeAccess]
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
@@ -305,19 +296,20 @@ public class Login extends AppCompatActivity implements
                 signIn();
                 break;
             case R.id.sign_out_button:
+                lc.signing_in = false;
+                lc.starter();
                 signOut();
                 break;
-            /*case R.id.disconnect_button:
-                revokeAccess();
-                break;*/
         }
     }
 
 
     /////////////
-    public void acceptRes(String result){
+    public void acceptRes(String result, HttpContext LC){
         MyGames mg = new MyGames();
         mg.result = result;
+        mg.localContext = LC;
+        Log.d("login AR", "The LocalContext GA: " + mg.localContext);
 
         try{
             mg.parseJSON();
@@ -328,6 +320,9 @@ public class Login extends AppCompatActivity implements
         }
         Intent i = new Intent(context, MyGames.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        Log.d("login AR", "The LocalContext GA: " + mg.localContext);
+
         context.startActivity(i);
     }
 }

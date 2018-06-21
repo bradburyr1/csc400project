@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.apache.http.protocol.HttpContext;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,6 +33,8 @@ the map view, accessible from a button on the map.
 public class MyGames extends AppCompatActivity {
 
     public static Context context;
+
+    public static HttpContext localContext;
 
     public static double[] longitude;
     public static double[] latitude;
@@ -56,6 +59,7 @@ public class MyGames extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("MG", "The LocalContext GA: " + localContext);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_games);
 
@@ -68,7 +72,11 @@ public class MyGames extends AppCompatActivity {
         //Start of the layout
         LinearLayout layout = (LinearLayout) findViewById(R.id.layout);
         //Here we loop through the number of games, making a button for each one
+        Log.d("Number of games: ", "bbbbb - " + game_id.length);
         for (int j = 0; j < game_id.length; j++) {
+
+            Log.d("Title: ", "bbbbb - " + title[j]);
+
             final int i = j;//Need to have a final variable for onclick to use, since the loop iteration
             //number (j) is being accessed from an inner class. So, assign a final (i) to j in each iteration.
             Button game = new Button(this);
@@ -95,6 +103,8 @@ public class MyGames extends AppCompatActivity {
             game.setId(j + 1);
             game.setOnClickListener(new View.OnClickListener() {//Now what happens when the button is clicked
                 public void onClick(View v) {
+                    gi.localContext = localContext;
+                    //Log.d("MG", "The LocalContext GA: " + localContext + ", " + gi.localContext);
                     gi.title = title[i];
                     gi.game_id = game_id[i];
                     gi.city = city[i];
@@ -173,6 +183,8 @@ public class MyGames extends AppCompatActivity {
         String res = result;
         Log.d("MAPS^^^^^^ACTIVITY", "test: " + res);//gam: GetAllMarkers, rst: json string result
 
+        //Log.d("Response from server: ", "in parseJSON" + result);
+
         try {
             JSONObject jsonParse = new JSONObject(res);//create a json object
             JSONArray markers  = jsonParse.getJSONArray("markers");//use 'markers' to create an array of the points 'markers' has
@@ -216,7 +228,7 @@ public class MyGames extends AppCompatActivity {
                 Log.d("Latitude^^^^^^^^^^^", "Latitude: " + latitude[i]);
                 Log.d("Longitude^^^^^^^^^^^", "Longitude: " + longitude[i]);
                 Log.d("Title^^^^^^^^^^^", "Title: " + title[i]);
-                Log.d("postalAddress@@@@@", "postalAddress: " + postalAddress[i]);
+                Log.d("postalAddress^^^^^^^^^^", "postalAddress: " + postalAddress[i]);
             }
         }
         catch(JSONException j){

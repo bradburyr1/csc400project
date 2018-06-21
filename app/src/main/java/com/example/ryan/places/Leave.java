@@ -3,11 +3,21 @@ package com.example.ryan.places;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HttpContext;
+import org.apache.http.util.EntityUtils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Ryan on 12/7/2017.
@@ -22,6 +32,8 @@ public class Leave {
 
     public String gid = "";
     public String uid = "";
+
+    public static HttpContext localContext;
 
     public void starter(){
         //Log.d("HELLO*************", "Starter");
@@ -39,6 +51,10 @@ public class Leave {
     }
 
     public class FetchMarkersTask extends AsyncTask<Void, Void, String> {
+        /*final String ip_address = "192.168.1.18";//home
+        final String project = "android_connect";
+        final String file = "leavegame.php";*/
+
         //And, finally, the better solution with google cloud.
         final String onlineURL = "https://csc-182021.appspot.com/leavegame/";
 
@@ -63,35 +79,32 @@ public class Leave {
             HttpURLConnection urlConnection = null;
 
             builtUri += "?gid=" +
-                    gid + "&uid=" + uid;
+                    gid;
 
-            String response = "";
-            Log.d("HELLO*************", "doInBackground: " + builtUri);
+            String response1 = "";
+
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpPost httpPost = new HttpPost(builtUri);
+
             try {
-                URL url = new URL(builtUri);
-                urlConnection = (HttpURLConnection) url.openConnection();
+                Log.d(TAG, "The LocalContext leave: " + localContext);
 
-                if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                    BufferedReader input = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()), 8192);
-                    String jsonResp = null;
-                    while ((jsonResp = input.readLine()) != null) {
-                        response = response.concat(jsonResp);
-                        //Log.d("HELLO*************", "While Loop");
-                        Log.d("HELLO*************", "Response: " + response);
-                        //Log.d("HELLO*************", "jsonResp: " + jsonResp);
-                    }
-                    input.close();
-                }
+                HttpResponse response = httpClient.execute(httpPost, localContext);
+                int statusCode = response.getStatusLine().getStatusCode();
+                final String responseBody = EntityUtils.toString(response.getEntity());
+                response1 = responseBody;
+                Log.i(TAG, "Response from server (leave): " + responseBody);
+            } catch (ClientProtocolException e) {
+                Log.e(TAG, "Error sending ID token to backend.", e);
             } catch (IOException e) {
-                Log.d("HELLO*************", "HERES YOUR DANG STRING", e);
+                Log.e(TAG, "Error sending ID token to backend.", e);
             }
 
-            ////////////
-            //Log.d("JSON Line", response);
-            rst = response;//store the json string
+            rst = response1;//store the json string
             ///////////
-            return response;
+            return response1;
         }
+
 
         //return response;
     }

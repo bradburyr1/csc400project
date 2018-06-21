@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import org.apache.http.protocol.HttpContext;
+
 import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
@@ -25,6 +27,8 @@ public class SearchActivity extends AppCompatActivity {
 
     MarkerSearch ms = new MarkerSearch();
     public static Context context;
+
+    public static HttpContext localContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +67,7 @@ public class SearchActivity extends AppCompatActivity {
                 Log.d("#####HOWDY######", "FUN: " + fun_bool + ", COMP: " + comp_bool);
 
                 //send all of the user's search terms to marker search
+                ms.localContext = localContext;
                 ms.title = sport_content;
                 ms.city = city_content;
                 ms.comp = comp_bool;
@@ -83,6 +88,7 @@ public class SearchActivity extends AppCompatActivity {
     public void acceptRes(String result){
         MapsActivity ma = new MapsActivity();
         ma.result = result;
+        ma.localContext = localContext;
 
         try{
         ma.parseJSON();
@@ -97,7 +103,7 @@ public class SearchActivity extends AppCompatActivity {
         context.startActivity(i);
     }
 
-    public String redo(String old){//A method for the part that is the same for each one that needs fixing
+    public String redo(String old){//Changes strings into the format they need to be in
         StringTokenizer tokensNew = new StringTokenizer(old, " ");
         String[] newStrArr = new String[tokensNew.countTokens()];
         String newStr = "";

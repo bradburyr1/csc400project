@@ -18,6 +18,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.apache.http.protocol.HttpContext;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,6 +42,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     public static boolean jsonDone = false;
+
+    public static HttpContext localContext;
 
     MyGames mg = new MyGames();
 
@@ -95,7 +99,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 GameInfo gi = new GameInfo();
                 gi.view = 0;
                 gi.uid = uid;
-                l.acceptRes(result);
+                l.acceptRes(result, localContext);
             }
         });
     }
@@ -173,6 +177,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     //Log.d("clickedTitle@@@@@", "clickedTitle: " + postalAddress[i] + ", city: " + city[i]);
 
                         //Set all the variables for the GameInfo activity
+                        gi.localContext = localContext;
+
                         gi.title = title[i];
                         gi.game_id = game_id[i];
                         gi.city = city[i];

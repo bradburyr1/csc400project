@@ -4,6 +4,14 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HttpContext;
+import org.apache.http.util.EntityUtils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,6 +21,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import static android.content.ContentValues.TAG;
 import static com.example.ryan.places.R.id.fun;
 
 /**
@@ -25,6 +34,8 @@ This is the background task that adds games to the database
 
 public class MakeGame {
     public static String rst = "";//will contain the json string
+
+    public static HttpContext localContext;
 
     String sport = "";
     String city = "";
@@ -64,10 +75,7 @@ public class MakeGame {
     }
 
     public class FetchMarkersTask extends AsyncTask<Void, Void, String> {
-
-        //////////////////////////////////
-        //these ip addresses are for testing with wampserver, will change to a better solution with google cloud
-        /*final String ip_address = "192.168.1.19";//home
+        /*final String ip_address = "192.168.1.18";//home
         final String project = "android_connect";
         final String file = "create_game.php";*/
 
@@ -113,34 +121,30 @@ public class MakeGame {
             builtUri += "?sport=" +
                     sport + "&city=" + city + "&time=" + time + "&address=" + address +
                     "&date=" + date + "&comp=" + comp + "&lat=" + lat +
-                    "&long=" + lng + "&uid=" + uid+ "&players=" + players + "&refs=" + refs;
+                    "&long=" + lng + "&players=" + players + "&refs=" + refs;
 
-            String response = "";
-            Log.d("HELLO*************", "doInBackground: " + builtUri);
+            String response1 = "";
+
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpPost httpPost = new HttpPost(builtUri);
+
             try {
-                URL url = new URL(builtUri);
-                urlConnection = (HttpURLConnection) url.openConnection();
+                Log.d(TAG, "The LocalContext makegame: " + localContext);
 
-                if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                    BufferedReader input = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()), 8192);
-                    String jsonResp = null;
-                    while ((jsonResp = input.readLine()) != null) {
-                        response = response.concat(jsonResp);
-                        //Log.d("HELLO*************", "While Loop");
-                        //Log.d("HELLO*************", "Response: " + response);
-                        //Log.d("HELLO*************", "jsonResp: " + jsonResp);
-                    }
-                    input.close();
-                }
+                HttpResponse response = httpClient.execute(httpPost, localContext);
+                int statusCode = response.getStatusLine().getStatusCode();
+                final String responseBody = EntityUtils.toString(response.getEntity());
+                response1 = responseBody;
+                Log.i(TAG, "Response from server (makegame): " + responseBody);
+            } catch (ClientProtocolException e) {
+                Log.e(TAG, "Error sending ID token to backend.", e);
             } catch (IOException e) {
-                Log.d("HELLO*************", "HERES YOUR DANG STRING", e);
+                Log.e(TAG, "Error sending ID token to backend.", e);
             }
 
-            ////////////
-            Log.d("JSON Line", response);
-            rst = response;//store the json string
+            rst = response1;//store the json string
             ///////////
-            return response;
+            return response1;
         }
 
         //return response;
