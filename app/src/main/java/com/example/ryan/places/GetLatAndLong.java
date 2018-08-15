@@ -98,13 +98,13 @@ public class GetLatAndLong {
                     String jsonResp = null;
                     while ((jsonResp = input.readLine()) != null) {
                         response = response.concat(jsonResp);
-                        //Log.d("HELLO*************", "Response: " + response);
+                        Log.d("HELLO*************", "Response: " + response);
                         //Log.d("HELLO*************", "jsonResp: " + jsonResp);
                     }
                     input.close();
                 }
             } catch (IOException e) {
-                Log.d("HELLO*************", "HERES YOUR DANG STRING", e);
+                Log.d("HELLO*************", "STRING", e);
             }
 
             ////////////

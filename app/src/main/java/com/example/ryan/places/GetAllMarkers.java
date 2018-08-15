@@ -90,7 +90,7 @@ public void pauseMarkers(){//Make the program wait for the JSON to finish parsin
                     input.close();
                 }
             } catch (IOException e) {
-                Log.d("HELLO*************", "HERES YOUR DANG STRING", e);
+                Log.d("HELLO*************", "STRING", e);
             }
 
             ////////////
